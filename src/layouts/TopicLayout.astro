@@ -1,0 +1,137 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import TopicSidebar from '../components/TopicSidebar.astro';
+import TableOfContents from '../components/TableOfContents.tsx';
+
+interface Heading {
+  id: string;
+  text: string;
+  depth: number;
+}
+
+interface Props {
+  title: string;
+  description?: string;
+  headings: Heading[];
+  topic: string;
+  subtopics: Array<{ slug: string; title: string; order: number }>;
+  currentSlug?: string;
+}
+
+const { title, description, headings, topic, subtopics, currentSlug } = Astro.props;
+const tocHeadings = headings.filter(h => h.depth === 2 || h.depth === 3);
+---
+
+<BaseLayout title={title} description={description}>
+  <div style="
+    display: grid;
+    grid-template-columns: var(--sidebar-width) 1fr var(--toc-width);
+    gap: .5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: .5rem .75rem;
+    align-items: start;
+  " class="topic-layout">
+
+    <div class="sidebar-panel">
+      <TopicSidebar topic={topic} subtopics={subtopics} currentSlug={currentSlug} />
+    </div>
+
+    <article class="prose" style="min-width: 0; padding: 0 1rem;">
+      <h1 style="margin-top: 0;">{title}</h1>
+      <slot />
+    </article>
+
+    <div class="toc-panel" style="position: sticky; top: 80px;">
+      <TableOfContents headings={tocHeadings} client:load />
+    </div>
+  </div>
+</BaseLayout>
+
+<div id="mobile-sidebar-overlay" style="
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 200;
+" class="mobile-only"></div>
+
+<div id="mobile-sidebar-drawer" style="
+  display: none;
+  position: fixed;
+  top: 0; left: 0; bottom: 0;
+  width: 280px;
+  background: var(--color-bg-secondary);
+  border-right: 1px solid var(--color-border);
+  padding: 1.5rem;
+  overflow-y: auto;
+  z-index: 201;
+  transform: translateX(-100%);
+  transition: transform 0.25s ease;
+" class="mobile-only">
+  <TopicSidebar topic={topic} subtopics={subtopics} currentSlug={currentSlug} />
+</div>
+
+<button id="mobile-sidebar-btn" style="
+  display: none;
+  position: fixed;
+  bottom: 1.5rem;
+  left: 1.5rem;
+  z-index: 150;
+  padding: 0.6rem 1rem;
+  background: var(--color-aurora-1);
+  color: white;
+  border: none;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(99, 102, 241, 0.4);
+" class="mobile-only">
+  ☰ Topics
+</button>
+
+<style>
+  @media (max-width: 1200px) {
+    .topic-layout {
+      grid-template-columns: var(--sidebar-width) 1fr !important;
+    }
+    .toc-panel { display: none; }
+  }
+
+  @media (max-width: 768px) {
+    .topic-layout {
+      grid-template-columns: 1fr !important;
+    }
+    .sidebar-panel { display: none; }
+    .mobile-only { display: block !important; }
+    #mobile-sidebar-btn { display: block !important; }
+  }
+</style>
+
+<script>
+  const btn = document.getElementById('mobile-sidebar-btn');
+  const drawer = document.getElementById('mobile-sidebar-drawer');
+  const overlay = document.getElementById('mobile-sidebar-overlay');
+
+  function open() {
+    if (!drawer || !overlay) return;
+    drawer.style.display = 'block';
+    overlay.style.display = 'block';
+    requestAnimationFrame(() => {
+      if (drawer) drawer.style.transform = 'translateX(0)';
+    });
+  }
+
+  function close() {
+    if (!drawer || !overlay) return;
+    drawer.style.transform = 'translateX(-100%)';
+    setTimeout(() => {
+      if (drawer) drawer.style.display = 'none';
+      if (overlay) overlay.style.display = 'none';
+    }, 250);
+  }
+
+  btn?.addEventListener('click', open);
+  overlay?.addEventListener('click', close);
+</script>

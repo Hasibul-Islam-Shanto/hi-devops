@@ -1,0 +1,543 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const topics = [
+  {
+    icon: 'terminal',
+    title: 'Linux',
+    description: 'Fundamentals, commands, permissions, and scripting with Bash.',
+    href: '/topics/linux',
+    available: true,
+    color: '#10b981',
+  },
+  {
+    icon: 'package',
+    title: 'Docker',
+    description: 'Containerise applications and manage images and volumes.',
+    href: '#',
+    available: false,
+    color: '#06b6d4',
+  },
+  {
+    icon: 'server',
+    title: 'Ansible',
+    description: 'Infrastructure automation, playbooks, and roles.',
+    href: '#',
+    available: false,
+    color: '#f59e0b',
+  },
+  {
+    icon: 'cloud',
+    title: 'Terraform',
+    description: 'Infrastructure as code for cloud provisioning.',
+    href: '#',
+    available: false,
+    color: '#8b5cf6',
+  },
+  {
+    icon: 'container',
+    title: 'Kubernetes',
+    description: 'Orchestrate containers at scale with K8s.',
+    href: '#',
+    available: false,
+    color: '#3b82f6',
+  },
+  {
+    icon: 'cpu',
+    title: 'CI/CD',
+    description: 'GitHub Actions, pipelines, and automated deployments.',
+    href: '#',
+    available: false,
+    color: '#ec4899',
+  },
+];
+---
+
+<BaseLayout
+  title="Home"
+  description="My DevOps learning journey — notes, guides and examples on Linux, Docker, Kubernetes and more."
+>
+
+  <section class="intro">
+
+    <div class="intro-text">
+      <h1 class="intro-heading">
+        <span class="grad">DevOps</span><br />Learning Journey
+      </h1>
+
+      <p class="intro-sub">
+        Practical notes, real commands, and scripts from my path to becoming a DevOps engineer.
+      </p>
+    </div>
+
+    <div class="term-wrap">
+      <div class="term">
+        <div class="term-bar">
+          <span class="tdot tdot-r"></span>
+          <span class="tdot tdot-y"></span>
+          <span class="tdot tdot-g"></span>
+          <span class="term-title">bash — devops-lab</span>
+        </div>
+        <div class="term-body" id="term-body">
+          <div class="term-prompt">
+            <span class="tp-user">user@devops</span><span class="tp-sep">:</span><span class="tp-path">~</span><span class="tp-dollar">$</span>
+            <span id="term-cmd"></span><span class="term-cursor" id="term-cursor">▋</span>
+          </div>
+          <div id="term-out"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="topics">
+    <div class="topics-head">
+      <p class="eyebrow">Curriculum</p>
+      <h2 class="topics-title">What I'm Learning</h2>
+    </div>
+
+    <div class="topics-grid">
+      {topics.map((topic, i) => (
+        <a
+          href={topic.available ? topic.href : undefined}
+          class={`card${!topic.available ? ' card--dim' : ''}`}
+          aria-disabled={!topic.available}
+          style={`--c:${topic.color};--i:${i}`}
+        >
+          <div class="card-top">
+            <div class="card-icon" style={`background:${topic.color}18;border-color:${topic.color}32`}>
+              {topic.icon === 'terminal' && (
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={topic.color} stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/>
+                </svg>
+              )}
+              {topic.icon === 'package' && (
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={topic.color} stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="16.5" y1="9.4" x2="7.5" y2="4.21"/>
+                  <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+                  <polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/>
+                </svg>
+              )}
+              {topic.icon === 'server' && (
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={topic.color} stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/>
+                  <line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/>
+                </svg>
+              )}
+              {topic.icon === 'cloud' && (
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={topic.color} stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/>
+                </svg>
+              )}
+              {topic.icon === 'container' && (
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={topic.color} stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+                </svg>
+              )}
+              {topic.icon === 'cpu' && (
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={topic.color} stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/>
+                  <line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/>
+                  <line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/>
+                  <line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="14" x2="23" y2="14"/>
+                  <line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/>
+                </svg>
+              )}
+            </div>
+            {topic.available
+              ? <span class="badge-live">Live</span>
+              : <span class="badge-soon">Soon</span>
+            }
+          </div>
+          <h3 class="card-title">{topic.title}</h3>
+          <p class="card-desc">{topic.description}</p>
+          {topic.available && (
+            <span class="card-link">
+              Explore notes
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </span>
+          )}
+        </a>
+      ))}
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  const sessions = [
+    {
+      cmd: 'ls -la /var/log/',
+      lines: [
+        ['total 56', '#64748b'],
+        ['drwxr-xr-x  8 root root  4096 Jun  1 09:12 .', '#94a3b8'],
+        ['-rw-r--r--  1 root adm  14320 Jun  1 09:11 syslog', '#94a3b8'],
+        ['-rw-r-----  1 root adm   8192 Jun  1 08:44 auth.log', '#94a3b8'],
+        ['-rw-r--r--  1 root root  3246 Jun  1 07:30 kern.log', '#94a3b8'],
+      ],
+    },
+    {
+      cmd: 'docker ps --format "table {{.Names}}\\t{{.Status}}"',
+      lines: [
+        ['NAMES              STATUS', '#64748b'],
+        ['nginx-proxy        Up 3 hours', '#06b6d4'],
+        ['postgres-db        Up 2 days', '#06b6d4'],
+        ['redis-cache        Up 5 hours', '#06b6d4'],
+      ],
+    },
+    {
+      cmd: 'kubectl get pods -n production',
+      lines: [
+        ['NAME                    READY   STATUS    AGE', '#64748b'],
+        ['api-7d9f8b-xk2p1        1/1     Running   2h', '#e2e8f0'],
+        ['web-6c8f7d-nm4q2        1/1     Running   2h', '#e2e8f0'],
+        ['worker-5b9e6c-pj3r3     1/1     Running   2h', '#e2e8f0'],
+      ],
+    },
+    {
+      cmd: 'terraform plan -out=tfplan',
+      lines: [
+        ['Refreshing Terraform state...', '#8b5cf6'],
+        ['', ''],
+        ['  + aws_instance.web    (new resource)', '#10b981'],
+        ['  + aws_sg.allow_http   (new resource)', '#10b981'],
+        ['', ''],
+        ['Plan: 2 to add, 0 to change, 0 to destroy.', '#e2e8f0'],
+      ],
+    },
+  ];
+
+  const cmdEl    = document.getElementById('term-cmd') as HTMLElement;
+  const outEl    = document.getElementById('term-out') as HTMLElement;
+  const cursorEl = document.getElementById('term-cursor') as HTMLElement;
+
+  if (!cmdEl || !outEl || !cursorEl) throw new Error('terminal els missing');
+
+  const sleep = (ms: number) => new Promise<void>(r => setTimeout(r, ms));
+
+  async function type(text: string) {
+    cmdEl.textContent = '';
+    cursorEl.style.opacity = '1';
+    for (const ch of text) {
+      cmdEl.textContent += ch;
+      await sleep(36 + Math.random() * 28);
+    }
+  }
+
+  function appendLine(text: string, color: string) {
+    const d = document.createElement('div');
+    d.style.cssText =
+      `color:${color||'#94a3b8'};font-family:'JetBrains Mono','Fira Code',monospace;` +
+      `font-size:0.82rem;line-height:1.65;white-space:pre;`;
+    d.textContent = text || '\u00a0';
+    outEl.appendChild(d);
+  }
+
+  let idx = 0;
+  async function loop() {
+    while (true) {
+      const s = sessions[idx++ % sessions.length];
+      outEl.innerHTML = '';
+      await sleep(500);
+      await type(s.cmd);
+      cursorEl.style.opacity = '0';
+      await sleep(260);
+      for (const [text, color] of s.lines) {
+        await sleep(75);
+        appendLine(text, color);
+      }
+      await sleep(2600);
+    }
+  }
+
+  loop();
+</script>
+
+<style>
+  @keyframes fade-up {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes cursor-blink {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0; }
+  }
+  @keyframes grad-move {
+    0%   { background-position: 0% center; }
+    100% { background-position: 200% center; }
+  }
+  @keyframes dot-pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(16,185,129,0.5); }
+    60%       { box-shadow: 0 0 0 4px rgba(16,185,129,0); }
+  }
+
+  .intro {
+    position: relative;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 5.5rem 2rem 3rem;
+    text-align: center;
+  }
+
+  .intro-text {
+    position: relative;
+    z-index: 1;
+    animation: fade-up 0.55s cubic-bezier(0.22,1,0.36,1) both;
+  }
+
+  .intro-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.3rem 0.85rem 0.3rem 0.65rem;
+    border-radius: 999px;
+    border: 1px solid rgba(99,102,241,0.26);
+    background: rgba(99,102,241,0.08);
+    color: #818cf8;
+    font-size: 0.78rem;
+    font-weight: 600;
+    margin-bottom: 1.75rem;
+    letter-spacing: 0.02em;
+  }
+  .badge-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: #10b981;
+    flex-shrink: 0;
+    animation: dot-pulse 2s ease-in-out infinite;
+  }
+
+  .intro-heading {
+    font-size: clamp(2.6rem, 6vw, 4rem);
+    font-weight: 900;
+    line-height: 1.07;
+    letter-spacing: -0.03em;
+    color: var(--color-text-primary);
+    margin-bottom: 1.125rem;
+  }
+  .grad {
+    background: linear-gradient(90deg, #6366f1, #8b5cf6, #06b6d4, #6366f1);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: grad-move 5s linear infinite;
+  }
+
+  .intro-sub {
+    font-size: 1.05rem;
+    color: var(--color-text-secondary);
+    max-width: 480px;
+    margin: 0 auto 2.25rem;
+    line-height: 1.7;
+  }
+
+  .intro-cta {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 3rem;
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.7rem 1.5rem;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    color: #fff;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-decoration: none;
+    box-shadow: 0 4px 18px rgba(99,102,241,0.38), inset 0 1px 0 rgba(255,255,255,0.14);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 26px rgba(99,102,241,0.5), inset 0 1px 0 rgba(255,255,255,0.14); }
+  .btn-primary svg { transition: transform 0.2s ease; }
+  .btn-primary:hover svg { transform: translateX(3px); }
+
+  .btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.7rem 1.5rem;
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.10);
+    background: rgba(255,255,255,0.035);
+    color: var(--color-text-secondary);
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
+  }
+  .btn-ghost:hover { border-color: rgba(255,255,255,0.18); background: rgba(255,255,255,0.06); color: var(--color-text-primary); }
+
+  .term-wrap {
+    position: relative;
+    z-index: 1;
+    max-width: 750px;
+    margin: 0 auto;
+    animation: fade-up 0.55s cubic-bezier(0.22,1,0.36,1) 100ms both;
+  }
+
+  .term {
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.09);
+    background: #0d1117;
+    overflow: hidden;
+    box-shadow: 0 0 0 1px rgba(99,102,241,0.09), 0 20px 56px rgba(0,0,0,0.50);
+  }
+
+  .term-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.38rem;
+    padding: 0.65rem 1rem;
+    background: #161b22;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .tdot { width: 11px; height: 11px; border-radius: 50%; }
+  .tdot-r { background: #ff5f56; }
+  .tdot-y { background: #ffbd2e; }
+  .tdot-g { background: #27c93f; }
+  .term-title {
+    margin: 0 auto;
+    font-size: 0.7rem;
+    color: #4b5563;
+    font-family: 'JetBrains Mono', 'Fira Code', monospace;
+    letter-spacing: 0.04em;
+  }
+
+  .term-body {
+    padding: 1.125rem 1.25rem;
+    min-height: 180px;
+    overflow-y: auto;
+    scrollbar-width: none;
+  }
+  .term-body::-webkit-scrollbar { display: none; }
+
+  .term-prompt {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 0.12rem;
+    font-family: 'JetBrains Mono', 'Fira Code', monospace;
+    font-size: 0.82rem;
+    line-height: 1.65;
+    margin-bottom: 0.1rem;
+  }
+  .tp-user   { color: #10b981; }
+  .tp-sep    { color: #4b5563; }
+  .tp-path   { color: #6366f1; }
+  .tp-dollar { color: #94a3b8; margin-right: 0.28rem; }
+  #term-cmd  { color: #e2e8f0; font-family: 'JetBrains Mono','Fira Code',monospace; font-size: 0.82rem; }
+  .term-cursor {
+    color: #6366f1;
+    font-size: 0.82rem;
+    animation: cursor-blink 1.1s step-end infinite;
+  }
+
+  .topics {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 3rem;
+  }
+  .topics-head { margin-bottom: 2.25rem; }
+  .eyebrow {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    margin-bottom: 0.4rem;
+  }
+  .topics-title {
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: var(--color-text-primary);
+    letter-spacing: -0.02em;
+  }
+
+  .topics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.125rem;
+  }
+
+  .card {
+    display: block;
+    text-decoration: none;
+    padding: 1.375rem;
+    border-radius: 14px;
+    background: rgba(255,255,255,0.025);
+    border: 1px solid rgba(255,255,255,0.07);
+    transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
+    animation: fade-up 0.5s cubic-bezier(0.22,1,0.36,1) calc(var(--i,0) * 50ms + 60ms) both;
+  }
+  .card:not(.card--dim):hover {
+    transform: translateY(-4px);
+    border-color: rgba(99,102,241,0.28);
+    box-shadow: 0 12px 32px rgba(0,0,0,0.28);
+  }
+  .card--dim { opacity: 0.48; pointer-events: none; }
+
+  .card-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+  }
+  .card-icon {
+    width: 44px; height: 44px;
+    border-radius: 11px;
+    border: 1px solid;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .badge-live {
+    padding: 0.18em 0.6em;
+    background: rgba(16,185,129,0.12);
+    color: #10b981;
+    border: 1px solid rgba(16,185,129,0.24);
+    border-radius: 999px;
+    font-size: 0.67rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .badge-soon {
+    padding: 0.18em 0.6em;
+    background: rgba(245,158,11,0.09);
+    color: #f59e0b;
+    border: 1px solid rgba(245,158,11,0.20);
+    border-radius: 999px;
+    font-size: 0.67rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .card-title {
+    font-size: 1.025rem;
+    font-weight: 700;
+    color: var(--color-text-primary);
+    margin-bottom: 0.35rem;
+    letter-spacing: -0.01em;
+  }
+  .card-desc {
+    font-size: 0.855rem;
+    color: var(--color-text-secondary);
+    line-height: 1.55;
+    margin-bottom: 1.125rem;
+  }
+  .card-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--c, #6366f1);
+    transition: gap 0.18s ease;
+  }
+  .card:hover .card-link { gap: 0.5rem; }
+
+</style>
