@@ -26,6 +26,9 @@ function formatDate(date: Date) {
   topic="Blog"
   subtopics={[]}
   currentSlug={entry.id}
+  ogType="article"
+  pubDate={entry.data.pubDate}
+  tags={entry.data.tags}
 >
   <div style="margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--color-border);">
     <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem; flex-wrap: wrap;">

@@ -16,13 +16,16 @@ interface Props {
   topic: string;
   subtopics: Array<{ slug: string; title: string; order: number }>;
   currentSlug?: string;
+  ogType?: 'website' | 'article';
+  pubDate?: Date;
+  tags?: string[];
 }
 
-const { title, description, headings, topic, subtopics, currentSlug } = Astro.props;
+const { title, description, headings, topic, subtopics, currentSlug, ogType, pubDate, tags } = Astro.props;
 const tocHeadings = headings.filter(h => h.depth === 2 || h.depth === 3);
 ---
 
-<BaseLayout title={title} description={description}>
+<BaseLayout title={title} description={description} ogType={ogType} pubDate={pubDate} tags={tags}>
   <div style="
     display: grid;
     grid-template-columns: var(--sidebar-width) 1fr var(--toc-width);
@@ -43,12 +46,12 @@ const tocHeadings = headings.filter(h => h.depth === 2 || h.depth === 3);
     </article>
 
     <div class="toc-panel" style="position: sticky; top: 80px;">
-      <TableOfContents headings={tocHeadings} client:load />
+      <TableOfContents headings={tocHeadings} client:idle />
     </div>
   </div>
 </BaseLayout>
 
-<div id="mobile-sidebar-overlay" style="
+<div id="mobile-sidebar-overlay" aria-hidden="true" style="
   display: none;
   position: fixed;
   inset: 0;
@@ -56,7 +59,7 @@ const tocHeadings = headings.filter(h => h.depth === 2 || h.depth === 3);
   z-index: 200;
 " class="mobile-only"></div>
 
-<div id="mobile-sidebar-drawer" style="
+<div id="mobile-sidebar-drawer" role="dialog" aria-modal="true" aria-label="Topics navigation" style="
   display: none;
   position: fixed;
   top: 0; left: 0; bottom: 0;
@@ -72,7 +75,7 @@ const tocHeadings = headings.filter(h => h.depth === 2 || h.depth === 3);
   <TopicSidebar topic={topic} subtopics={subtopics} currentSlug={currentSlug} />
 </div>
 
-<button id="mobile-sidebar-btn" style="
+<button id="mobile-sidebar-btn" aria-label="Open topics menu" aria-expanded="false" aria-controls="mobile-sidebar-drawer" style="
   display: none;
   position: fixed;
   bottom: 1.5rem;
@@ -118,6 +121,7 @@ const tocHeadings = headings.filter(h => h.depth === 2 || h.depth === 3);
     if (!drawer || !overlay) return;
     drawer.style.display = 'block';
     overlay.style.display = 'block';
+    btn?.setAttribute('aria-expanded', 'true');
     requestAnimationFrame(() => {
       if (drawer) drawer.style.transform = 'translateX(0)';
     });
@@ -126,6 +130,7 @@ const tocHeadings = headings.filter(h => h.depth === 2 || h.depth === 3);
   function close() {
     if (!drawer || !overlay) return;
     drawer.style.transform = 'translateX(-100%)';
+    btn?.setAttribute('aria-expanded', 'false');
     setTimeout(() => {
       if (drawer) drawer.style.display = 'none';
       if (overlay) overlay.style.display = 'none';

@@ -9,7 +9,7 @@ const { topic, subtopics, currentSlug } = Astro.props;
 const sorted = [...subtopics].sort((a, b) => a.order - b.order);
 ---
 
-<aside style="
+<aside aria-label="Topic navigation" style="
   position: sticky;
   top: 80px;
   height: fit-content;

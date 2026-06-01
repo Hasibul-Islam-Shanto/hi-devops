@@ -6,9 +6,54 @@ import Search from '../components/Search.tsx';
 interface Props {
   title: string;
   description?: string;
+  ogImage?: string;
+  ogType?: 'website' | 'article';
+  pubDate?: Date;
+  tags?: string[];
 }
 
-const { title, description = 'My DevOps Learning Journey — Linux, Docker, Kubernetes and more.' } = Astro.props;
+const {
+  title,
+  description = 'My DevOps Learning Journey — Linux, Docker, Kubernetes and more.',
+  ogImage = '/hi_devops_logo.webp',
+  ogType = 'website',
+  pubDate,
+  tags = [],
+} = Astro.props;
+
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site).toString();
+const ogImageUrl = new URL(ogImage, Astro.site).toString();
+const pageTitle = title === 'Home'
+  ? 'hi-devOps — DevOps Learning Journey'
+  : `${title} | hi-devOps`;
+
+const jsonLd = ogType === 'article'
+  ? {
+      '@context': 'https://schema.org',
+      '@type': 'TechArticle',
+      headline: title,
+      description,
+      url: canonicalUrl,
+      image: ogImageUrl,
+      ...(pubDate && { datePublished: pubDate.toISOString() }),
+      author: { '@type': 'Person', name: 'hi-shanto' },
+      ...(tags.length > 0 && { keywords: tags.join(', ') }),
+    }
+  : {
+      '@context': 'https://schema.org',
+      '@type': 'WebSite',
+      name: 'hi-devOps',
+      description,
+      url: Astro.site?.toString().replace(/\/$/, '') ?? '',
+      potentialAction: {
+        '@type': 'SearchAction',
+        target: {
+          '@type': 'EntryPoint',
+          urlTemplate: `${Astro.site?.toString().replace(/\/$/, '') ?? ''}/?q={search_term_string}`,
+        },
+        'query-input': 'required name=search_term_string',
+      },
+    };
 ---
 
 <!doctype html>
@@ -16,15 +61,55 @@ const { title, description = 'My DevOps Learning Journey — Linux, Docker, Kube
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>{pageTitle}</title>
     <meta name="description" content={description} />
-    <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
-    <title>{title} | hi-devOps</title>
+    <link rel="canonical" href={canonicalUrl} />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:image:alt" content={`${title} — hi-devOps`} />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:site_name" content="hi-devOps" />
+    <meta property="og:locale" content="en_US" />
+    {ogType === 'article' && pubDate && (
+      <meta property="article:published_time" content={pubDate.toISOString()} />
+    )}
+    {ogType === 'article' && tags.map(tag => (
+      <meta property="article:tag" content={tag} />
+    ))}
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageUrl} />
+    <meta name="twitter:image:alt" content={`${title} — hi-devOps`} />
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+
+    <!-- Fonts — preconnect + async load to avoid render-blocking -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" as="style" />
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
       rel="stylesheet"
+      media="print"
+      onload="this.media='all'"
     />
+    <noscript>
+      <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    </noscript>
+
+    <!-- JSON-LD Structured Data -->
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
   </head>
   <body>
     <Navbar />

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://hi-devops.dev/sitemap-index.xml

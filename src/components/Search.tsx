@@ -135,6 +135,7 @@ export default function Search() {
     <>
       <div
         onClick={() => setOpen(false)}
+        aria-hidden="true"
         style={{
           position: 'fixed', inset: 0,
           background: 'rgba(0,0,0,0.60)',
@@ -144,6 +145,9 @@ export default function Search() {
       />
 
       <div
+        role="dialog"
+        aria-modal="true"
+        aria-label="Search"
         style={{
           position: 'fixed',
           top: '12%',
@@ -171,7 +175,8 @@ export default function Search() {
             borderBottom: '1px solid rgba(255,255,255,0.07)',
           }}>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
-              stroke="#64748b" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              stroke="#64748b" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+              aria-hidden="true">
               <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
             </svg>
             <input
@@ -179,6 +184,7 @@ export default function Search() {
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               onKeyDown={handleKey}
+              aria-label="Search topics, commands, headings"
               placeholder="Search topics, commands, headings…"
               style={{
                 flex: 1,
@@ -193,6 +199,7 @@ export default function Search() {
             {query && (
               <button
                 onClick={() => setQuery('')}
+                aria-label="Clear search"
                 style={{ background: 'none', border: 'none', color: '#64748b', cursor: 'pointer', padding: 0, lineHeight: 1 }}
               >
                 ✕
