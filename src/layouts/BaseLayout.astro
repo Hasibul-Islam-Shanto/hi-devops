@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
 import Search from '../components/Search.tsx';
 
 interface Props {
@@ -116,6 +117,7 @@ const jsonLd = ogType === 'article'
     <main>
       <slot />
     </main>
+    <Footer />
     <Search client:load />
   </body>
 </html>
