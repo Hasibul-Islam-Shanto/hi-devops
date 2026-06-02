@@ -49,94 +49,106 @@ const tocHeadings = headings.filter(h => h.depth === 2 || h.depth === 3);
       <TableOfContents headings={tocHeadings} client:idle />
     </div>
   </div>
+
+  <div id="mobile-sidebar-overlay" aria-hidden="true" style="
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 200;
+  "></div>
+
+  <div id="mobile-sidebar-drawer" role="dialog" aria-modal="true" aria-label="Topics navigation" style="
+    display: none;
+    position: fixed;
+    top: 0; left: 0; bottom: 0;
+    width: 280px;
+    background: var(--color-bg-secondary);
+    border-right: 1px solid var(--color-border);
+    padding: 1.5rem;
+    overflow-y: auto;
+    z-index: 201;
+    transform: translateX(-100%);
+    transition: transform 0.25s ease;
+  ">
+    <button id="mobile-sidebar-close" aria-label="Close topics menu" style="
+      display: block;
+      margin-left: auto;
+      margin-bottom: 1rem;
+      background: none;
+      border: none;
+      font-size: 1.25rem;
+      cursor: pointer;
+      color: var(--color-text);
+      line-height: 1;
+    ">✕</button>
+    <TopicSidebar topic={topic} subtopics={subtopics} currentSlug={currentSlug} />
+  </div>
+
+  <button id="mobile-sidebar-btn" aria-label="Open topics menu" aria-expanded="false" aria-controls="mobile-sidebar-drawer" style="
+    display: none;
+    position: fixed;
+    bottom: 1.5rem;
+    left: 1.5rem;
+    z-index: 202;
+    padding: 0.6rem 1rem;
+    background: var(--color-aurora-1);
+    color: white;
+    border: none;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(99, 102, 241, 0.4);
+  ">
+    ☰ Topics
+  </button>
+
+  <style>
+    @media (max-width: 1200px) {
+      .topic-layout {
+        grid-template-columns: var(--sidebar-width) 1fr !important;
+      }
+      .toc-panel { display: none; }
+    }
+
+    @media (max-width: 768px) {
+      .topic-layout {
+        grid-template-columns: 1fr !important;
+      }
+      .sidebar-panel { display: none; }
+      #mobile-sidebar-btn { display: block !important; }
+    }
+  </style>
+
+  <script>
+    const btn = document.getElementById('mobile-sidebar-btn');
+    const drawer = document.getElementById('mobile-sidebar-drawer');
+    const overlay = document.getElementById('mobile-sidebar-overlay');
+    const closeBtn = document.getElementById('mobile-sidebar-close');
+
+    function openDrawer() {
+      if (!drawer || !overlay) return;
+      drawer.style.display = 'block';
+      overlay.style.display = 'block';
+      btn?.setAttribute('aria-expanded', 'true');
+      requestAnimationFrame(() => {
+        if (drawer) drawer.style.transform = 'translateX(0)';
+      });
+    }
+
+    function closeDrawer() {
+      if (!drawer || !overlay) return;
+      drawer.style.transform = 'translateX(-100%)';
+      btn?.setAttribute('aria-expanded', 'false');
+      setTimeout(() => {
+        if (drawer) drawer.style.display = 'none';
+        if (overlay) overlay.style.display = 'none';
+      }, 250);
+    }
+
+    btn?.addEventListener('click', openDrawer);
+    overlay?.addEventListener('click', closeDrawer);
+    closeBtn?.addEventListener('click', closeDrawer);
+  </script>
 </BaseLayout>
-
-<div id="mobile-sidebar-overlay" aria-hidden="true" style="
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.5);
-  z-index: 200;
-" class="mobile-only"></div>
-
-<div id="mobile-sidebar-drawer" role="dialog" aria-modal="true" aria-label="Topics navigation" style="
-  display: none;
-  position: fixed;
-  top: 0; left: 0; bottom: 0;
-  width: 280px;
-  background: var(--color-bg-secondary);
-  border-right: 1px solid var(--color-border);
-  padding: 1.5rem;
-  overflow-y: auto;
-  z-index: 201;
-  transform: translateX(-100%);
-  transition: transform 0.25s ease;
-" class="mobile-only">
-  <TopicSidebar topic={topic} subtopics={subtopics} currentSlug={currentSlug} />
-</div>
-
-<button id="mobile-sidebar-btn" aria-label="Open topics menu" aria-expanded="false" aria-controls="mobile-sidebar-drawer" style="
-  display: none;
-  position: fixed;
-  bottom: 1.5rem;
-  left: 1.5rem;
-  z-index: 150;
-  padding: 0.6rem 1rem;
-  background: var(--color-aurora-1);
-  color: white;
-  border: none;
-  border-radius: 999px;
-  font-size: 0.8rem;
-  font-weight: 600;
-  cursor: pointer;
-  box-shadow: 0 4px 20px rgba(99, 102, 241, 0.4);
-" class="mobile-only">
-  ☰ Topics
-</button>
-
-<style>
-  @media (max-width: 1200px) {
-    .topic-layout {
-      grid-template-columns: var(--sidebar-width) 1fr !important;
-    }
-    .toc-panel { display: none; }
-  }
-
-  @media (max-width: 768px) {
-    .topic-layout {
-      grid-template-columns: 1fr !important;
-    }
-    .sidebar-panel { display: none; }
-    .mobile-only { display: block !important; }
-    #mobile-sidebar-btn { display: block !important; }
-  }
-</style>
-
-<script>
-  const btn = document.getElementById('mobile-sidebar-btn');
-  const drawer = document.getElementById('mobile-sidebar-drawer');
-  const overlay = document.getElementById('mobile-sidebar-overlay');
-
-  function open() {
-    if (!drawer || !overlay) return;
-    drawer.style.display = 'block';
-    overlay.style.display = 'block';
-    btn?.setAttribute('aria-expanded', 'true');
-    requestAnimationFrame(() => {
-      if (drawer) drawer.style.transform = 'translateX(0)';
-    });
-  }
-
-  function close() {
-    if (!drawer || !overlay) return;
-    drawer.style.transform = 'translateX(-100%)';
-    btn?.setAttribute('aria-expanded', 'false');
-    setTimeout(() => {
-      if (drawer) drawer.style.display = 'none';
-      if (overlay) overlay.style.display = 'none';
-    }, 250);
-  }
-
-  btn?.addEventListener('click', open);
-  overlay?.addEventListener('click', close);
-</script>
