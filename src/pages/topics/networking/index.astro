@@ -1,0 +1,175 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const networkingEntries = await getCollection('networking');
+const subtopics = networkingEntries
+  .map(e => ({ slug: e.id, title: e.data.title, description: e.data.description, order: e.data.order }))
+  .sort((a, b) => a.order - b.order);
+---
+
+<BaseLayout
+  title="Networking"
+  description="Networking for DevOps engineers — from IP addressing and DNS to load balancing, VPCs, and troubleshooting."
+>
+
+  <section class="nw-header">
+    <div class="nw-title-row">
+      <div class="nw-icon" aria-hidden="true">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0ea5e9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+        </svg>
+      </div>
+      <h1 class="nw-title">Networking</h1>
+    </div>
+
+    <p class="nw-desc">
+      From how the internet works to designing production-grade cloud networks.
+      Master protocols, DNS, load balancing, and troubleshooting.
+    </p>
+  </section>
+
+  <section class="nw-cards">
+    <div class="nw-grid">
+      {subtopics.map((sub, i) => (
+        <a
+          href={`/topics/networking/${sub.slug}`}
+          class="nw-card"
+          style={`--i:${i}`}
+        >
+          <div class="nw-card-top">
+            <span class="nw-order">{String(sub.order).padStart(2, '0')}</span>
+          </div>
+          <h2 class="nw-card-title">{sub.title}</h2>
+          <p class="nw-card-desc">{sub.description}</p>
+          <span class="nw-card-cta">
+            Read notes
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </span>
+        </a>
+      ))}
+    </div>
+  </section>
+
+</BaseLayout>
+
+<style>
+  @keyframes nw-fade-up {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .nw-header {
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+    animation: nw-fade-up 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .nw-title-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.875rem;
+    margin-bottom: 0.875rem;
+  }
+
+  .nw-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    background: rgba(14, 165, 233, 0.10);
+    border: 1px solid rgba(14, 165, 233, 0.22);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .nw-title {
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 900;
+    color: var(--color-text-primary);
+    letter-spacing: -0.03em;
+    margin: 0;
+  }
+
+  .nw-desc {
+    font-size: 1rem;
+    color: var(--color-text-secondary);
+    max-width: 500px;
+    margin: 0 auto;
+    line-height: 1.75;
+  }
+
+  .nw-cards {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 2.5rem 2rem 6rem;
+  }
+
+  .nw-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.125rem;
+  }
+
+  .nw-card {
+    display: block;
+    text-decoration: none;
+    padding: 1.375rem;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.025);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
+    animation: nw-fade-up 0.5s cubic-bezier(0.22, 1, 0.36, 1) calc(var(--i, 0) * 50ms + 80ms) both;
+  }
+  .nw-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(14, 165, 233, 0.28);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.28);
+  }
+
+  .nw-card-top {
+    margin-bottom: 0.875rem;
+  }
+
+  .nw-order {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: #0ea5e9;
+    font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  }
+
+  .nw-card-title {
+    font-size: 1.025rem;
+    font-weight: 700;
+    color: var(--color-text-primary);
+    margin-bottom: 0.4rem;
+    letter-spacing: -0.01em;
+  }
+
+  .nw-card-desc {
+    font-size: 0.855rem;
+    color: var(--color-text-secondary);
+    line-height: 1.55;
+    margin-bottom: 1.25rem;
+  }
+
+  .nw-card-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #0ea5e9;
+    transition: gap 0.18s ease;
+  }
+  .nw-card:hover .nw-card-cta { gap: 0.5rem; }
+
+  @media (max-width: 600px) {
+    .nw-header { padding: 3.5rem 1.25rem 2rem; }
+    .nw-cards  { padding: 2rem 1.25rem 5rem; }
+  }
+</style>

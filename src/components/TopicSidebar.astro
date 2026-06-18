@@ -29,7 +29,7 @@ const sorted = [...subtopics].sort((a, b) => a.order - b.order);
   <nav style="display: flex; flex-direction: column; gap: 0.125rem;">
     {sorted.map(item => (
       <a
-        href={`/topics/linux/${item.slug}`}
+        href={`/topics/${topic.toLowerCase()}/${item.slug}`}
         class={`sidebar-nav-link${currentSlug === item.slug ? ' active' : ''}`}
       >
         <span style="font-size: 0.75rem; opacity: 0.5; font-weight: 600; min-width: 1.5rem;">
