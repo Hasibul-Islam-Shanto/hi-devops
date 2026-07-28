@@ -67,7 +67,6 @@ const jsonLd =
     <link rel="canonical" href={canonicalUrl} />
     <link rel="sitemap" href="/sitemap-index.xml" />
 
-    <!-- Open Graph -->
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalUrl} />
@@ -83,18 +82,15 @@ const jsonLd =
     }
     {ogType === 'article' && tags.map((tag) => <meta property="article:tag" content={tag} />)}
 
-    <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={pageTitle} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImageUrl} />
     <meta name="twitter:image:alt" content={`${title} — hi-devOps`} />
 
-    <!-- Favicons -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
 
-    <!-- Fonts — preconnect + async load to avoid render-blocking -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -115,7 +111,6 @@ const jsonLd =
       />
     </noscript>
 
-    <!-- JSON-LD Structured Data -->
     <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
   </head>
   <body>
@@ -129,7 +124,6 @@ const jsonLd =
 </html>
 
 <script is:inline>
-  // Apply saved theme before paint to avoid flash
   (function () {
     const theme = localStorage.getItem('theme') || 'dark';
     if (theme === 'light') {

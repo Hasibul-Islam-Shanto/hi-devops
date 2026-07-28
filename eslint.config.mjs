@@ -18,8 +18,6 @@ export default tseslint.config(
     },
   },
   {
-    // Astro component scripts are checked by eslint-plugin-astro's own parser,
-    // which doesn't support type-aware TS rules — disable to avoid false positives.
     files: ['**/*.astro'],
     rules: {
       '@typescript-eslint/no-unused-vars': 'off',
