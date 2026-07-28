@@ -4,7 +4,12 @@ import { getCollection } from 'astro:content';
 
 const linuxEntries = await getCollection('linux');
 const subtopics = linuxEntries
-  .map(e => ({ slug: e.id, title: e.data.title, description: e.data.description, order: e.data.order }))
+  .map((e) => ({
+    slug: e.id,
+    title: e.data.title,
+    description: e.data.description,
+    order: e.data.order,
+  }))
   .sort((a, b) => a.order - b.order);
 ---
 
@@ -12,55 +17,77 @@ const subtopics = linuxEntries
   title="Linux"
   description="Learn Linux from the ground up — commands, permissions, bash scripting, and real-world scenarios."
 >
-
   <section class="lx-header">
     <div class="lx-title-row">
       <div class="lx-icon" aria-hidden="true">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/>
+        <svg
+          width="28"
+          height="28"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="#10b981"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line>
         </svg>
       </div>
       <h1 class="lx-title">Linux</h1>
     </div>
 
     <p class="lx-desc">
-      The foundation of DevOps. Master the command line, file system,
-      permissions, process management, and Bash scripting.
+      The foundation of DevOps. Master the command line, file system, permissions, process
+      management, and Bash scripting.
     </p>
   </section>
 
   <section class="lx-cards">
     <div class="lx-grid">
-      {subtopics.map((sub, i) => (
-        <a
-          href={`/topics/linux/${sub.slug}`}
-          class="lx-card"
-          style={`--i:${i}`}
-        >
-          <div class="lx-card-top">
-            <span class="lx-order">{String(sub.order).padStart(2, '0')}</span>
-          </div>
-          <h2 class="lx-card-title">{sub.title}</h2>
-          <p class="lx-card-desc">{sub.description}</p>
-          <span class="lx-card-cta">
-            Read notes
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </span>
-        </a>
-      ))}
+      {
+        subtopics.map((sub, i) => (
+          <a href={`/topics/linux/${sub.slug}`} class="lx-card" style={`--i:${i}`}>
+            <div class="lx-card-top">
+              <span class="lx-order">{String(sub.order).padStart(2, '0')}</span>
+            </div>
+            <h2 class="lx-card-title">{sub.title}</h2>
+            <p class="lx-card-desc">{sub.description}</p>
+            <span class="lx-card-cta">
+              Read notes
+              <svg
+                width="12"
+                height="12"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M5 12h14M12 5l7 7-7 7" />
+              </svg>
+            </span>
+          </a>
+        ))
+      }
     </div>
   </section>
-
 </BaseLayout>
 
 <style>
   @keyframes lx-fade-up {
-    from { opacity: 0; transform: translateY(16px); }
-    to   { opacity: 1; transform: translateY(0); }
+    from {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 
   .lx-header {
-    max-width: 1200px;
+    max-width: 1600px;
     margin: 0 auto;
     text-align: center;
     animation: lx-fade-up 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
@@ -78,7 +105,7 @@ const subtopics = linuxEntries
     width: 52px;
     height: 52px;
     border-radius: 14px;
-    background: rgba(16, 185, 129, 0.10);
+    background: rgba(16, 185, 129, 0.1);
     border: 1px solid rgba(16, 185, 129, 0.22);
     display: flex;
     align-items: center;
@@ -121,7 +148,10 @@ const subtopics = linuxEntries
     border-radius: 14px;
     background: rgba(255, 255, 255, 0.025);
     border: 1px solid rgba(255, 255, 255, 0.07);
-    transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
+    transition:
+      transform 0.22s ease,
+      border-color 0.22s ease,
+      box-shadow 0.22s ease;
     animation: lx-fade-up 0.5s cubic-bezier(0.22, 1, 0.36, 1) calc(var(--i, 0) * 50ms + 80ms) both;
   }
   .lx-card:hover {
@@ -166,10 +196,16 @@ const subtopics = linuxEntries
     color: #10b981;
     transition: gap 0.18s ease;
   }
-  .lx-card:hover .lx-card-cta { gap: 0.5rem; }
+  .lx-card:hover .lx-card-cta {
+    gap: 0.5rem;
+  }
 
   @media (max-width: 600px) {
-    .lx-header { padding: 3.5rem 1.25rem 2rem; }
-    .lx-cards  { padding: 2rem 1.25rem 5rem; }
+    .lx-header {
+      padding: 3.5rem 1.25rem 2rem;
+    }
+    .lx-cards {
+      padding: 2rem 1.25rem 5rem;
+    }
   }
 </style>

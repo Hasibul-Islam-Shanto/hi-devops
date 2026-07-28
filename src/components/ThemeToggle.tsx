@@ -2,14 +2,10 @@ import { useState, useEffect } from 'react';
 import { Sun, Moon } from 'lucide-react';
 
 export default function ThemeToggle() {
-  const [isDark, setIsDark] = useState(true);
-
-  useEffect(() => {
+  const [isDark, setIsDark] = useState(() => {
     const stored = localStorage.getItem('theme');
-    const dark = stored ? stored === 'dark' : true;
-    setIsDark(dark);
-    applyTheme(dark);
-  }, []);
+    return stored ? stored === 'dark' : true;
+  });
 
   function applyTheme(dark: boolean) {
     const html = document.documentElement;
@@ -20,10 +16,13 @@ export default function ThemeToggle() {
     }
   }
 
+  useEffect(() => {
+    applyTheme(isDark);
+  }, [isDark]);
+
   function toggle() {
     const next = !isDark;
     setIsDark(next);
-    applyTheme(next);
     localStorage.setItem('theme', next ? 'dark' : 'light');
   }
 
@@ -42,13 +41,14 @@ export default function ThemeToggle() {
         background: 'var(--color-surface)',
         color: 'var(--color-text-secondary)',
         cursor: 'pointer',
-        transition: 'background var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast)',
+        transition:
+          'background var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast)',
       }}
-      onMouseEnter={e => {
+      onMouseEnter={(e) => {
         (e.currentTarget as HTMLButtonElement).style.background = 'var(--color-surface-hover)';
         (e.currentTarget as HTMLButtonElement).style.color = 'var(--color-text-primary)';
       }}
-      onMouseLeave={e => {
+      onMouseLeave={(e) => {
         (e.currentTarget as HTMLButtonElement).style.background = 'var(--color-surface)';
         (e.currentTarget as HTMLButtonElement).style.color = 'var(--color-text-secondary)';
       }}

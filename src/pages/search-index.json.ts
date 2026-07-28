@@ -9,40 +9,40 @@ export const GET: APIRoute = async () => {
     linuxEntries.map(async (entry) => {
       const { headings } = await render(entry);
       return {
-        title:       entry.data.title,
+        title: entry.data.title,
         description: entry.data.description,
-        slug:        entry.id,
-        topic:       'Linux',
-        topicColor:  '#10b981',
-        href:        `/topics/linux/${entry.id}`,
-        order:       entry.data.order,
-        headings:    headings.map((h) => ({
-          id:    h.slug,
-          text:  h.text,
+        slug: entry.id,
+        topic: 'Linux',
+        topicColor: '#10b981',
+        href: `/topics/linux/${entry.id}`,
+        order: entry.data.order,
+        headings: headings.map((h) => ({
+          id: h.slug,
+          text: h.text,
           depth: h.depth,
         })),
       };
-    })
+    }),
   );
 
   const networkingIndex = await Promise.all(
     networkingEntries.map(async (entry) => {
       const { headings } = await render(entry);
       return {
-        title:       entry.data.title,
+        title: entry.data.title,
         description: entry.data.description,
-        slug:        entry.id,
-        topic:       'Networking',
-        topicColor:  '#0ea5e9',
-        href:        `/topics/networking/${entry.id}`,
-        order:       entry.data.order,
-        headings:    headings.map((h) => ({
-          id:    h.slug,
-          text:  h.text,
+        slug: entry.id,
+        topic: 'Networking',
+        topicColor: '#0ea5e9',
+        href: `/topics/networking/${entry.id}`,
+        order: entry.data.order,
+        headings: headings.map((h) => ({
+          id: h.slug,
+          text: h.text,
           depth: h.depth,
         })),
       };
-    })
+    }),
   );
 
   const index = [...linuxIndex, ...networkingIndex];

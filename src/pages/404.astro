@@ -8,8 +8,17 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     <h1 class="not-found-title">Page not found</h1>
     <p class="not-found-desc">The page you're looking for doesn't exist or has moved.</p>
     <a href="/" class="not-found-link">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M19 12H5M12 19l-7-7 7-7"/>
+      <svg
+        width="14"
+        height="14"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path d="M19 12H5M12 19l-7-7 7-7"></path>
       </svg>
       Back to home
     </a>
@@ -57,7 +66,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     border-radius: 8px;
     border: 1px solid var(--color-border);
     background: var(--color-surface);
-    transition: border-color var(--transition-fast, 180ms ease), background var(--transition-fast, 180ms ease);
+    transition:
+      border-color var(--transition-fast, 180ms ease),
+      background var(--transition-fast, 180ms ease);
   }
 
   .not-found-link:hover {

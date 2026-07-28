@@ -35,10 +35,7 @@ function searchEntries(entries: SearchEntry[], query: string): Match[] {
   const results: Match[] = [];
 
   for (const entry of entries) {
-    if (
-      entry.title.toLowerCase().includes(q) ||
-      entry.description.toLowerCase().includes(q)
-    ) {
+    if (entry.title.toLowerCase().includes(q) || entry.description.toLowerCase().includes(q)) {
       results.push({ entry, matchedHeading: null, href: entry.href });
     }
 
@@ -62,12 +59,12 @@ function searchEntries(entries: SearchEntry[], query: string): Match[] {
 }
 
 export default function Search() {
-  const [open, setOpen]       = useState(false);
-  const [query, setQuery]     = useState('');
+  const [open, setOpen] = useState(false);
+  const [query, setQuery] = useState('');
   const [entries, setEntries] = useState<SearchEntry[]>([]);
-  const [active, setActive]   = useState(0);
-  const inputRef  = useRef<HTMLInputElement>(null);
-  const listRef   = useRef<HTMLUListElement>(null);
+  const [active, setActive] = useState(0);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const listRef = useRef<HTMLUListElement>(null);
 
   useEffect(() => {
     fetch('/search-index.json')
@@ -76,36 +73,41 @@ export default function Search() {
       .catch(() => {});
   }, []);
 
+  const openSearch = useCallback(() => {
+    setQuery('');
+    setActive(0);
+    setOpen(true);
+  }, []);
+
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
         e.preventDefault();
-        setOpen(true);
+        openSearch();
       }
       if (e.key === 'Escape') setOpen(false);
     };
-    const handleEvent = () => setOpen(true);
     window.addEventListener('keydown', handleKey);
-    window.addEventListener('open-search', handleEvent);
+    window.addEventListener('open-search', openSearch);
     return () => {
       window.removeEventListener('keydown', handleKey);
-      window.removeEventListener('open-search', handleEvent);
+      window.removeEventListener('open-search', openSearch);
     };
-  }, []);
+  }, [openSearch]);
 
   useEffect(() => {
     if (open) {
-      setQuery('');
-      setActive(0);
-      setTimeout(() => inputRef.current?.focus(), 30);
+      const timer = setTimeout(() => inputRef.current?.focus(), 30);
+      return () => clearTimeout(timer);
     }
   }, [open]);
 
   const matches = searchEntries(entries, query);
 
-  useEffect(() => {
+  const updateQuery = useCallback((value: string) => {
+    setQuery(value);
     setActive(0);
-  }, [query]);
+  }, []);
 
   const navigate = useCallback((href: string) => {
     window.location.href = href;
@@ -137,7 +139,8 @@ export default function Search() {
         onClick={() => setOpen(false)}
         aria-hidden="true"
         style={{
-          position: 'fixed', inset: 0,
+          position: 'fixed',
+          inset: 0,
           background: 'rgba(0,0,0,0.60)',
           backdropFilter: 'blur(4px)',
           zIndex: 900,
@@ -159,30 +162,42 @@ export default function Search() {
           padding: '0 1rem',
         }}
       >
-        <div style={{
-          background: '#0f1629',
-          border: '1px solid rgba(255,255,255,0.10)',
-          borderRadius: '14px',
-          boxShadow: '0 24px 64px rgba(0,0,0,0.70)',
-          overflow: 'hidden',
-        }}>
-
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '0.625rem',
-            padding: '0.875rem 1rem',
-            borderBottom: '1px solid rgba(255,255,255,0.07)',
-          }}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
-              stroke="#64748b" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
-              aria-hidden="true">
-              <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+        <div
+          style={{
+            background: '#0f1629',
+            border: '1px solid rgba(255,255,255,0.10)',
+            borderRadius: '14px',
+            boxShadow: '0 24px 64px rgba(0,0,0,0.70)',
+            overflow: 'hidden',
+          }}
+        >
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.625rem',
+              padding: '0.875rem 1rem',
+              borderBottom: '1px solid rgba(255,255,255,0.07)',
+            }}
+          >
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="#64748b"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
+              <circle cx="11" cy="11" r="8" />
+              <path d="m21 21-4.35-4.35" />
             </svg>
             <input
               ref={inputRef}
               value={query}
-              onChange={(e) => setQuery(e.target.value)}
+              onChange={(e) => updateQuery(e.target.value)}
               onKeyDown={handleKey}
               aria-label="Search topics, commands, headings"
               placeholder="Search topics, commands, headings…"
@@ -198,31 +213,56 @@ export default function Search() {
             />
             {query && (
               <button
-                onClick={() => setQuery('')}
+                onClick={() => updateQuery('')}
                 aria-label="Clear search"
-                style={{ background: 'none', border: 'none', color: '#64748b', cursor: 'pointer', padding: 0, lineHeight: 1 }}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  color: '#64748b',
+                  cursor: 'pointer',
+                  padding: 0,
+                  lineHeight: 1,
+                }}
               >
                 ✕
               </button>
             )}
-            <kbd style={{
-              padding: '0.15em 0.45em',
-              borderRadius: '5px',
-              border: '1px solid rgba(255,255,255,0.10)',
-              background: 'rgba(255,255,255,0.04)',
-              color: '#64748b',
-              fontSize: '0.72rem',
-              fontFamily: 'inherit',
-              flexShrink: 0,
-            }}>Esc</kbd>
+            <kbd
+              style={{
+                padding: '0.15em 0.45em',
+                borderRadius: '5px',
+                border: '1px solid rgba(255,255,255,0.10)',
+                background: 'rgba(255,255,255,0.04)',
+                color: '#64748b',
+                fontSize: '0.72rem',
+                fontFamily: 'inherit',
+                flexShrink: 0,
+              }}
+            >
+              Esc
+            </kbd>
           </div>
 
           {query.trim() === '' ? (
-            <div style={{ padding: '2rem 1rem', textAlign: 'center', color: '#475569', fontSize: '0.875rem' }}>
+            <div
+              style={{
+                padding: '2rem 1rem',
+                textAlign: 'center',
+                color: '#475569',
+                fontSize: '0.875rem',
+              }}
+            >
               Start typing to search…
             </div>
           ) : matches.length === 0 ? (
-            <div style={{ padding: '2rem 1rem', textAlign: 'center', color: '#475569', fontSize: '0.875rem' }}>
+            <div
+              style={{
+                padding: '2rem 1rem',
+                textAlign: 'center',
+                color: '#475569',
+                fontSize: '0.875rem',
+              }}
+            >
               No results for <strong style={{ color: '#94a3b8' }}>"{query}"</strong>
             </div>
           ) : (
@@ -255,52 +295,77 @@ export default function Search() {
                       transition: 'background 0.12s ease',
                     }}
                   >
-                    <span style={{
-                      marginTop: '2px',
-                      width: '28px', height: '28px',
-                      borderRadius: '7px',
-                      background: `${m.entry.topicColor}18`,
-                      border: `1px solid ${m.entry.topicColor}32`,
-                      display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      flexShrink: 0,
-                    }}>
+                    <span
+                      style={{
+                        marginTop: '2px',
+                        width: '28px',
+                        height: '28px',
+                        borderRadius: '7px',
+                        background: `${m.entry.topicColor}18`,
+                        border: `1px solid ${m.entry.topicColor}32`,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        flexShrink: 0,
+                      }}
+                    >
                       {m.matchedHeading ? (
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none"
-                          stroke={m.entry.topicColor} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                          <line x1="4" y1="6" x2="20" y2="6"/>
-                          <line x1="4" y1="12" x2="14" y2="12"/>
-                          <line x1="4" y1="18" x2="18" y2="18"/>
+                        <svg
+                          width="12"
+                          height="12"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke={m.entry.topicColor}
+                          strokeWidth="2.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        >
+                          <line x1="4" y1="6" x2="20" y2="6" />
+                          <line x1="4" y1="12" x2="14" y2="12" />
+                          <line x1="4" y1="18" x2="18" y2="18" />
                         </svg>
                       ) : (
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none"
-                          stroke={m.entry.topicColor} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                          <polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/>
+                        <svg
+                          width="12"
+                          height="12"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke={m.entry.topicColor}
+                          strokeWidth="2.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        >
+                          <polyline points="4 17 10 11 4 5" />
+                          <line x1="12" y1="19" x2="20" y2="19" />
                         </svg>
                       )}
                     </span>
 
                     <span style={{ minWidth: 0 }}>
-                      <span style={{
-                        display: 'block',
-                        fontSize: '0.875rem',
-                        fontWeight: 600,
-                        color: '#e2e8f0',
-                        marginBottom: '0.15rem',
-                      }}
+                      <span
+                        style={{
+                          display: 'block',
+                          fontSize: '0.875rem',
+                          fontWeight: 600,
+                          color: '#e2e8f0',
+                          marginBottom: '0.15rem',
+                        }}
                         dangerouslySetInnerHTML={{
                           __html: highlight(
                             m.matchedHeading ? m.matchedHeading.text : m.entry.title,
-                            query
+                            query,
                           ),
                         }}
                       />
-                      <span style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '0.35rem',
-                        fontSize: '0.75rem',
-                        color: '#64748b',
-                      }}>
+                      <span
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '0.35rem',
+                          fontSize: '0.75rem',
+                          color: '#64748b',
+                        }}
+                      >
                         <span style={{ color: m.entry.topicColor, fontWeight: 600 }}>
                           {m.entry.topic}
                         </span>
@@ -313,21 +378,40 @@ export default function Search() {
                         {!m.matchedHeading && m.entry.description && (
                           <>
                             <span>·</span>
-                            <span style={{
-                              overflow: 'hidden',
-                              textOverflow: 'ellipsis',
-                              whiteSpace: 'nowrap',
-                              maxWidth: '340px',
-                            }}>{m.entry.description}</span>
+                            <span
+                              style={{
+                                overflow: 'hidden',
+                                textOverflow: 'ellipsis',
+                                whiteSpace: 'nowrap',
+                                maxWidth: '340px',
+                              }}
+                            >
+                              {m.entry.description}
+                            </span>
                           </>
                         )}
                       </span>
                     </span>
 
-                    <span style={{ marginLeft: 'auto', color: '#475569', alignSelf: 'center', flexShrink: 0 }}>
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                    <span
+                      style={{
+                        marginLeft: 'auto',
+                        color: '#475569',
+                        alignSelf: 'center',
+                        flexShrink: 0,
+                      }}
+                    >
+                      <svg
+                        width="14"
+                        height="14"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <path d="M5 12h14M12 5l7 7-7 7" />
                       </svg>
                     </span>
                   </button>
@@ -336,19 +420,30 @@ export default function Search() {
             </ul>
           )}
 
-          <div style={{
-            display: 'flex',
-            gap: '1rem',
-            padding: '0.5rem 1rem',
-            borderTop: '1px solid rgba(255,255,255,0.06)',
-            fontSize: '0.7rem',
-            color: '#475569',
-          }}>
-            <span><kbd style={kbdStyle}>↑</kbd><kbd style={kbdStyle}>↓</kbd> navigate</span>
-            <span><kbd style={kbdStyle}>↵</kbd> open</span>
-            <span><kbd style={kbdStyle}>Esc</kbd> close</span>
+          <div
+            style={{
+              display: 'flex',
+              gap: '1rem',
+              padding: '0.5rem 1rem',
+              borderTop: '1px solid rgba(255,255,255,0.06)',
+              fontSize: '0.7rem',
+              color: '#475569',
+            }}
+          >
+            <span>
+              <kbd style={kbdStyle}>↑</kbd>
+              <kbd style={kbdStyle}>↓</kbd> navigate
+            </span>
+            <span>
+              <kbd style={kbdStyle}>↵</kbd> open
+            </span>
+            <span>
+              <kbd style={kbdStyle}>Esc</kbd> close
+            </span>
             {matches.length > 0 && (
-              <span style={{ marginLeft: 'auto' }}>{matches.length} result{matches.length !== 1 ? 's' : ''}</span>
+              <span style={{ marginLeft: 'auto' }}>
+                {matches.length} result{matches.length !== 1 ? 's' : ''}
+              </span>
             )}
           </div>
         </div>
@@ -376,4 +471,3 @@ const kbdStyle: React.CSSProperties = {
   marginRight: '2px',
   fontFamily: 'inherit',
 };
-

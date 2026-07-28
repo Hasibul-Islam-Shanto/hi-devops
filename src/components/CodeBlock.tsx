@@ -16,28 +16,34 @@ export default function CodeBlock({ code, lang = 'bash' }: Props) {
   }
 
   return (
-    <div style={{
-      position: 'relative',
-      borderRadius: '10px',
-      border: '1px solid var(--code-border)',
-      marginBottom: '1.5rem',
-      overflow: 'hidden',
-    }}>
-      <div style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        padding: '0.4rem 1rem',
-        background: 'rgba(255,255,255,0.04)',
-        borderBottom: '1px solid var(--code-border)',
-      }}>
-        <span style={{
-          fontSize: '0.75rem',
-          fontFamily: 'monospace',
-          color: 'var(--color-text-muted)',
-          textTransform: 'uppercase',
-          letterSpacing: '0.05em',
-        }}>
+    <div
+      style={{
+        position: 'relative',
+        borderRadius: '10px',
+        border: '1px solid var(--code-border)',
+        marginBottom: '1.5rem',
+        overflow: 'hidden',
+      }}
+    >
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          padding: '0.4rem 1rem',
+          background: 'rgba(255,255,255,0.04)',
+          borderBottom: '1px solid var(--code-border)',
+        }}
+      >
+        <span
+          style={{
+            fontSize: '0.75rem',
+            fontFamily: 'monospace',
+            color: 'var(--color-text-muted)',
+            textTransform: 'uppercase',
+            letterSpacing: '0.05em',
+          }}
+        >
           {lang}
         </span>
         <button
@@ -62,16 +68,18 @@ export default function CodeBlock({ code, lang = 'bash' }: Props) {
         </button>
       </div>
 
-      <pre style={{
-        background: 'var(--code-bg)',
-        padding: '1.25rem',
-        overflowX: 'auto',
-        margin: 0,
-        fontSize: '0.875rem',
-        lineHeight: '1.7',
-        fontFamily: "'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace",
-        color: 'var(--code-text)',
-      }}>
+      <pre
+        style={{
+          background: 'var(--code-bg)',
+          padding: '1.25rem',
+          overflowX: 'auto',
+          margin: 0,
+          fontSize: '0.875rem',
+          lineHeight: '1.7',
+          fontFamily: "'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace",
+          color: 'var(--code-text)',
+        }}
+      >
         <code>{code}</code>
       </pre>
     </div>

@@ -16,17 +16,38 @@ interface Props {
   topic: string;
   subtopics: Array<{ slug: string; title: string; order: number }>;
   currentSlug?: string;
+  basePath?: string;
   ogType?: 'website' | 'article';
   pubDate?: Date;
   tags?: string[];
 }
 
-const { title, description, headings, topic, subtopics, currentSlug, ogType, pubDate, tags } = Astro.props;
-const tocHeadings = headings.filter(h => h.depth === 2 || h.depth === 3);
+const {
+  title,
+  description,
+  headings,
+  topic,
+  subtopics,
+  currentSlug,
+  basePath = `/topics/${topic.toLowerCase()}`,
+  ogType,
+  pubDate,
+  tags,
+} = Astro.props;
+const tocHeadings = headings.filter((h) => h.depth === 2 || h.depth === 3);
+
+const sortedSubtopics = [...subtopics].sort((a, b) => a.order - b.order);
+const currentIndex = sortedSubtopics.findIndex((s) => s.slug === currentSlug);
+const prevItem = currentIndex > 0 ? sortedSubtopics[currentIndex - 1] : null;
+const nextItem =
+  currentIndex >= 0 && currentIndex < sortedSubtopics.length - 1
+    ? sortedSubtopics[currentIndex + 1]
+    : null;
 ---
 
 <BaseLayout title={title} description={description} ogType={ogType} pubDate={pubDate} tags={tags}>
-  <div style="
+  <div
+    style="
     display: grid;
     grid-template-columns: var(--sidebar-width) 1fr var(--toc-width);
     gap: .5rem;
@@ -34,15 +55,67 @@ const tocHeadings = headings.filter(h => h.depth === 2 || h.depth === 3);
     margin: 0 auto;
     padding: .5rem .75rem;
     align-items: start;
-  " class="topic-layout">
-
+  "
+    class="topic-layout"
+  >
     <div class="sidebar-panel">
       <TopicSidebar topic={topic} subtopics={subtopics} currentSlug={currentSlug} />
     </div>
 
-    <article class="prose" style="min-width: 0; padding: 0 1rem;">
+    <article class="prose" style="min-width: 0; justify-self: center; padding: 0 1rem;">
       <h1 style="margin-top: 0;">{title}</h1>
       <slot />
+
+      {
+        (prevItem || nextItem) && (
+          <nav class="topic-pagination" aria-label="Topic navigation">
+            {prevItem ? (
+              <a href={`${basePath}/${prevItem.slug}`} class="pagination-link pagination-prev">
+                <span class="pagination-label">
+                  <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path d="M19 12H5M12 19l-7-7 7-7" />
+                  </svg>
+                  Previous
+                </span>
+                <span class="pagination-title">{prevItem.title}</span>
+              </a>
+            ) : (
+              <span />
+            )}
+            {nextItem ? (
+              <a href={`${basePath}/${nextItem.slug}`} class="pagination-link pagination-next">
+                <span class="pagination-label">
+                  Next
+                  <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path d="M5 12h14M12 5l7 7-7 7" />
+                  </svg>
+                </span>
+                <span class="pagination-title">{nextItem.title}</span>
+              </a>
+            ) : (
+              <span />
+            )}
+          </nav>
+        )
+      }
     </article>
 
     <div class="toc-panel" style="position: sticky; top: 80px;">
@@ -50,15 +123,25 @@ const tocHeadings = headings.filter(h => h.depth === 2 || h.depth === 3);
     </div>
   </div>
 
-  <div id="mobile-sidebar-overlay" aria-hidden="true" style="
+  <div
+    id="mobile-sidebar-overlay"
+    aria-hidden="true"
+    style="
     display: none;
     position: fixed;
     inset: 0;
     background: rgba(0,0,0,0.5);
     z-index: 200;
-  "></div>
+  "
+  >
+  </div>
 
-  <div id="mobile-sidebar-drawer" role="dialog" aria-modal="true" aria-label="Topics navigation" style="
+  <div
+    id="mobile-sidebar-drawer"
+    role="dialog"
+    aria-modal="true"
+    aria-label="Topics navigation"
+    style="
     display: none;
     position: fixed;
     top: 0; left: 0; bottom: 0;
@@ -70,8 +153,12 @@ const tocHeadings = headings.filter(h => h.depth === 2 || h.depth === 3);
     z-index: 201;
     transform: translateX(-100%);
     transition: transform 0.25s ease;
-  ">
-    <button id="mobile-sidebar-close" aria-label="Close topics menu" style="
+  "
+  >
+    <button
+      id="mobile-sidebar-close"
+      aria-label="Close topics menu"
+      style="
       display: block;
       margin-left: auto;
       margin-bottom: 1rem;
@@ -81,11 +168,18 @@ const tocHeadings = headings.filter(h => h.depth === 2 || h.depth === 3);
       cursor: pointer;
       color: var(--color-text);
       line-height: 1;
-    ">✕</button>
+    "
+      >✕</button
+    >
     <TopicSidebar topic={topic} subtopics={subtopics} currentSlug={currentSlug} />
   </div>
 
-  <button id="mobile-sidebar-btn" aria-label="Open topics menu" aria-expanded="false" aria-controls="mobile-sidebar-drawer" style="
+  <button
+    id="mobile-sidebar-btn"
+    aria-label="Open topics menu"
+    aria-expanded="false"
+    aria-controls="mobile-sidebar-drawer"
+    style="
     display: none;
     position: fixed;
     bottom: 1.5rem;
@@ -100,24 +194,101 @@ const tocHeadings = headings.filter(h => h.depth === 2 || h.depth === 3);
     font-weight: 600;
     cursor: pointer;
     box-shadow: 0 4px 20px rgba(99, 102, 241, 0.4);
-  ">
+  "
+  >
     ☰ Topics
   </button>
 
   <style>
+    .topic-pagination {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--color-border);
+    }
+
+    .pagination-link {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+      padding: 0.9rem 1rem;
+      border: 1px solid var(--color-border);
+      border-radius: 10px;
+      text-decoration: none;
+      transition:
+        border-color var(--transition-fast),
+        background var(--transition-fast);
+      min-width: 0;
+    }
+
+    .pagination-link:hover {
+      border-color: var(--color-border-hover);
+      background: var(--color-surface);
+    }
+
+    .pagination-next {
+      grid-column: 2;
+      text-align: right;
+    }
+
+    .pagination-label {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+    }
+
+    .pagination-next .pagination-label {
+      justify-content: flex-end;
+    }
+
+    .pagination-title {
+      font-size: 0.9375rem;
+      font-weight: 600;
+      color: var(--color-text-accent);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    @media (max-width: 600px) {
+      .topic-pagination {
+        grid-template-columns: 1fr;
+      }
+      .pagination-next {
+        grid-column: 1;
+        text-align: left;
+      }
+      .pagination-next .pagination-label {
+        justify-content: flex-start;
+      }
+    }
+
     @media (max-width: 1200px) {
       .topic-layout {
         grid-template-columns: var(--sidebar-width) 1fr !important;
       }
-      .toc-panel { display: none; }
+      .toc-panel {
+        display: none;
+      }
     }
 
     @media (max-width: 768px) {
       .topic-layout {
         grid-template-columns: 1fr !important;
       }
-      .sidebar-panel { display: none; }
-      #mobile-sidebar-btn { display: block !important; }
+      .sidebar-panel {
+        display: none;
+      }
+      #mobile-sidebar-btn {
+        display: block !important;
+      }
     }
   </style>
 

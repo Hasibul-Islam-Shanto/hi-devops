@@ -70,13 +70,13 @@ A personal DevOps learning site built with [Astro](https://astro.build). Practic
 
 All commands are run from the root of the project:
 
-| Command           | Action                                      |
-| :---------------- | :------------------------------------------ |
-| `npm install`     | Install dependencies                        |
-| `npm run dev`     | Start local dev server at `localhost:4321`  |
-| `npm run build`   | Build the production site to `./dist/`      |
-| `npm run preview` | Preview the production build locally        |
-| `npm run astro`   | Run Astro CLI commands                      |
+| Command           | Action                                     |
+| :---------------- | :----------------------------------------- |
+| `npm install`     | Install dependencies                       |
+| `npm run dev`     | Start local dev server at `localhost:4321` |
+| `npm run build`   | Build the production site to `./dist/`     |
+| `npm run preview` | Preview the production build locally       |
+| `npm run astro`   | Run Astro CLI commands                     |
 
 ## Requirements
 

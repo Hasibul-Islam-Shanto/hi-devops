@@ -17,11 +17,11 @@ export default function TableOfContents({ headings }: Props) {
     if (headings.length === 0) return;
 
     const observer = new IntersectionObserver(
-      entries => {
-        const visible = entries.filter(e => e.isIntersecting);
+      (entries) => {
+        const visible = entries.filter((e) => e.isIntersecting);
         if (visible.length > 0) {
           const topmost = visible.reduce((a, b) =>
-            a.boundingClientRect.top < b.boundingClientRect.top ? a : b
+            a.boundingClientRect.top < b.boundingClientRect.top ? a : b,
           );
           setActiveId(topmost.target.id);
         }
@@ -29,10 +29,10 @@ export default function TableOfContents({ headings }: Props) {
       {
         rootMargin: '-64px 0px -60% 0px',
         threshold: 0,
-      }
+      },
     );
 
-    headings.forEach(h => {
+    headings.forEach((h) => {
       const el = document.getElementById(h.id);
       if (el) observer.observe(el);
     });
@@ -51,19 +51,21 @@ export default function TableOfContents({ headings }: Props) {
 
   return (
     <nav aria-label="Table of contents">
-      <p style={{
-        fontSize: '0.7rem',
-        fontWeight: 700,
-        letterSpacing: '0.12em',
-        textTransform: 'uppercase',
-        color: 'var(--color-text-muted)',
-        marginBottom: '0.75rem',
-        paddingLeft: '0.5rem',
-      }}>
+      <p
+        style={{
+          fontSize: '0.7rem',
+          fontWeight: 700,
+          letterSpacing: '0.12em',
+          textTransform: 'uppercase',
+          color: 'var(--color-text-muted)',
+          marginBottom: '0.75rem',
+          paddingLeft: '0.5rem',
+        }}
+      >
         Contents
       </p>
       <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-        {headings.map(h => (
+        {headings.map((h) => (
           <li key={h.id}>
             <button
               onClick={() => scrollTo(h.id)}

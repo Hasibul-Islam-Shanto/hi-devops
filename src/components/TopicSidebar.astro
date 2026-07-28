@@ -9,34 +9,45 @@ const { topic, subtopics, currentSlug } = Astro.props;
 const sorted = [...subtopics].sort((a, b) => a.order - b.order);
 ---
 
-<aside aria-label="Topic navigation" style="
+<aside
+  aria-label="Topic navigation"
+  style="
   position: sticky;
   top: 80px;
   height: fit-content;
   max-height: calc(100vh - 100px);
   overflow-y: auto;
   padding-right: 0.5rem;
-">
-  <div style="margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--color-border);">
-    <span style="font-size: 0.7rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-text-muted);">
+"
+>
+  <div
+    style="margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--color-border);"
+  >
+    <span
+      style="font-size: 0.7rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-text-muted);"
+    >
       Topic
     </span>
-    <h2 style="font-size: 1rem; font-weight: 700; color: var(--color-text-primary); margin-top: 0.25rem;">
+    <h2
+      style="font-size: 1rem; font-weight: 700; color: var(--color-text-primary); margin-top: 0.25rem;"
+    >
       {topic}
     </h2>
   </div>
 
   <nav style="display: flex; flex-direction: column; gap: 0.125rem;">
-    {sorted.map(item => (
-      <a
-        href={`/topics/${topic.toLowerCase()}/${item.slug}`}
-        class={`sidebar-nav-link${currentSlug === item.slug ? ' active' : ''}`}
-      >
-        <span style="font-size: 0.75rem; opacity: 0.5; font-weight: 600; min-width: 1.5rem;">
-          {String(item.order).padStart(2, '0')}
-        </span>
-        {item.title}
-      </a>
-    ))}
+    {
+      sorted.map((item) => (
+        <a
+          href={`/topics/${topic.toLowerCase()}/${item.slug}`}
+          class={`sidebar-nav-link${currentSlug === item.slug ? ' active' : ''}`}
+        >
+          <span style="font-size: 0.75rem; opacity: 0.5; font-weight: 600; min-width: 1.5rem;">
+            {String(item.order).padStart(2, '0')}
+          </span>
+          {item.title}
+        </a>
+      ))
+    }
   </nav>
 </aside>

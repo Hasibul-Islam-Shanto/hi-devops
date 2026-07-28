@@ -16,6 +16,7 @@ Astro 6 static site for DevOps learning content. Dark-first theme with light mod
 **Layouts:** `BaseLayout.astro` is the root shell (SEO meta, JSON-LD, fonts, navbar, footer, search overlay). `TopicLayout.astro` wraps topic articles in a 3-column grid (sidebar | article | TOC) with responsive breakpoints at 1200px and 768px.
 
 **Content collections** are defined in `src/content.config.ts` using Astro's glob loader:
+
 - `linux` — Markdown files in `src/content/linux/`, schema: `{ title, description, order, topic }`. Ordered by `order` field.
 - `blog` — Markdown/MDX in `src/content/blog/`, schema: `{ title, description, pubDate, tags, readTime, draft }`.
 

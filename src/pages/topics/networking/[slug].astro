@@ -4,7 +4,7 @@ import TopicLayout from '../../../layouts/TopicLayout.astro';
 
 export async function getStaticPaths() {
   const entries = await getCollection('networking');
-  return entries.map(entry => ({
+  return entries.map((entry) => ({
     params: { slug: entry.id },
     props: { entry },
   }));
@@ -12,10 +12,10 @@ export async function getStaticPaths() {
 
 const { entry } = Astro.props;
 const { Content, headings: rawHeadings } = await render(entry);
-const headings = rawHeadings.map(h => ({ id: h.slug, text: h.text, depth: h.depth }));
+const headings = rawHeadings.map((h) => ({ id: h.slug, text: h.text, depth: h.depth }));
 
 const allEntries = await getCollection('networking');
-const subtopics = allEntries.map(e => ({
+const subtopics = allEntries.map((e) => ({
   slug: e.id,
   title: e.data.title,
   order: e.data.order,

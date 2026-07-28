@@ -11,7 +11,6 @@ function formatDate(date: Date) {
 ---
 
 <BaseLayout title="Blog" description="Thoughts and write-ups from my DevOps learning journey.">
-
   <section class="blog-hero">
     <p class="section-eyebrow">Writing</p>
     <h1 class="blog-title">Blog</h1>
@@ -19,50 +18,60 @@ function formatDate(date: Date) {
   </section>
 
   <section class="blog-content">
-    {posts.length === 0 ? (
-      <div class="empty-state">
-        <div class="empty-icon">
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--color-text-muted)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-            <polyline points="14 2 14 8 20 8"/>
-            <line x1="16" y1="13" x2="8" y2="13"/>
-            <line x1="16" y1="17" x2="8" y2="17"/>
-            <polyline points="10 9 9 9 8 9"/>
-          </svg>
+    {
+      posts.length === 0 ? (
+        <div class="empty-state">
+          <div class="empty-icon">
+            <svg
+              width="32"
+              height="32"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="var(--color-text-muted)"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+              <polyline points="14 2 14 8 20 8" />
+              <line x1="16" y1="13" x2="8" y2="13" />
+              <line x1="16" y1="17" x2="8" y2="17" />
+              <polyline points="10 9 9 9 8 9" />
+            </svg>
+          </div>
+          <h2 class="empty-title">No posts yet</h2>
+          <p class="empty-desc">First post coming soon. Check back later!</p>
         </div>
-        <h2 class="empty-title">No posts yet</h2>
-        <p class="empty-desc">First post coming soon. Check back later!</p>
-      </div>
-    ) : (
-      <div class="posts-grid">
-        {posts.map(post => (
-          <a href={`/blog/${post.id}`} class="card-premium post-card">
-            <div class="post-meta">
-              <time datetime={post.data.pubDate.toISOString()} class="post-date">
-                {formatDate(post.data.pubDate)}
-              </time>
-              <span class="post-read-time">{post.data.readTime}</span>
-            </div>
-            <h2 class="post-title">{post.data.title}</h2>
-            <p class="post-desc">{post.data.description}</p>
-            {post.data.tags.length > 0 && (
-              <div class="post-tags">
-                {post.data.tags.map((tag: string) => (
-                  <span class="post-tag">{tag}</span>
-                ))}
+      ) : (
+        <div class="posts-grid">
+          {posts.map((post) => (
+            <a href={`/blog/${post.id}`} class="card-premium post-card">
+              <div class="post-meta">
+                <time datetime={post.data.pubDate.toISOString()} class="post-date">
+                  {formatDate(post.data.pubDate)}
+                </time>
+                <span class="post-read-time">{post.data.readTime}</span>
               </div>
-            )}
-          </a>
-        ))}
-      </div>
-    )}
+              <h2 class="post-title">{post.data.title}</h2>
+              <p class="post-desc">{post.data.description}</p>
+              {post.data.tags.length > 0 && (
+                <div class="post-tags">
+                  {post.data.tags.map((tag: string) => (
+                    <span class="post-tag">{tag}</span>
+                  ))}
+                </div>
+              )}
+            </a>
+          ))}
+        </div>
+      )
+    }
   </section>
-
 </BaseLayout>
 
 <style>
   .blog-hero {
-    max-width: 1400px;
+    max-width: 1600px;
     margin: 0 auto;
     padding: 4rem 1.5rem 2.5rem;
   }
@@ -90,7 +99,7 @@ function formatDate(date: Date) {
   }
 
   .blog-content {
-    max-width: 1400px;
+    max-width: 1600px;
     margin: 0 auto;
     padding: 0 1.5rem 5rem;
   }

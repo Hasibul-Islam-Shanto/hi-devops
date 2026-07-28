@@ -4,7 +4,12 @@ import { getCollection } from 'astro:content';
 
 const networkingEntries = await getCollection('networking');
 const subtopics = networkingEntries
-  .map(e => ({ slug: e.id, title: e.data.title, description: e.data.description, order: e.data.order }))
+  .map((e) => ({
+    slug: e.id,
+    title: e.data.title,
+    description: e.data.description,
+    order: e.data.order,
+  }))
   .sort((a, b) => a.order - b.order);
 ---
 
@@ -12,55 +17,79 @@ const subtopics = networkingEntries
   title="Networking"
   description="Networking for DevOps engineers — from IP addressing and DNS to load balancing, VPCs, and troubleshooting."
 >
-
   <section class="nw-header">
     <div class="nw-title-row">
       <div class="nw-icon" aria-hidden="true">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0ea5e9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+        <svg
+          width="28"
+          height="28"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="#0ea5e9"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path
+            d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"
+          ></path>
         </svg>
       </div>
       <h1 class="nw-title">Networking</h1>
     </div>
 
     <p class="nw-desc">
-      From how the internet works to designing production-grade cloud networks.
-      Master protocols, DNS, load balancing, and troubleshooting.
+      From how the internet works to designing production-grade cloud networks. Master protocols,
+      DNS, load balancing, and troubleshooting.
     </p>
   </section>
 
   <section class="nw-cards">
     <div class="nw-grid">
-      {subtopics.map((sub, i) => (
-        <a
-          href={`/topics/networking/${sub.slug}`}
-          class="nw-card"
-          style={`--i:${i}`}
-        >
-          <div class="nw-card-top">
-            <span class="nw-order">{String(sub.order).padStart(2, '0')}</span>
-          </div>
-          <h2 class="nw-card-title">{sub.title}</h2>
-          <p class="nw-card-desc">{sub.description}</p>
-          <span class="nw-card-cta">
-            Read notes
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </span>
-        </a>
-      ))}
+      {
+        subtopics.map((sub, i) => (
+          <a href={`/topics/networking/${sub.slug}`} class="nw-card" style={`--i:${i}`}>
+            <div class="nw-card-top">
+              <span class="nw-order">{String(sub.order).padStart(2, '0')}</span>
+            </div>
+            <h2 class="nw-card-title">{sub.title}</h2>
+            <p class="nw-card-desc">{sub.description}</p>
+            <span class="nw-card-cta">
+              Read notes
+              <svg
+                width="12"
+                height="12"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M5 12h14M12 5l7 7-7 7" />
+              </svg>
+            </span>
+          </a>
+        ))
+      }
     </div>
   </section>
-
 </BaseLayout>
 
 <style>
   @keyframes nw-fade-up {
-    from { opacity: 0; transform: translateY(16px); }
-    to   { opacity: 1; transform: translateY(0); }
+    from {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 
   .nw-header {
-    max-width: 1200px;
+    max-width: 1600px;
     margin: 0 auto;
     text-align: center;
     animation: nw-fade-up 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
@@ -78,7 +107,7 @@ const subtopics = networkingEntries
     width: 52px;
     height: 52px;
     border-radius: 14px;
-    background: rgba(14, 165, 233, 0.10);
+    background: rgba(14, 165, 233, 0.1);
     border: 1px solid rgba(14, 165, 233, 0.22);
     display: flex;
     align-items: center;
@@ -103,7 +132,7 @@ const subtopics = networkingEntries
   }
 
   .nw-cards {
-    max-width: 1000px;
+    max-width: 1600px;
     margin: 0 auto;
     padding: 2.5rem 2rem 6rem;
   }
@@ -121,7 +150,10 @@ const subtopics = networkingEntries
     border-radius: 14px;
     background: rgba(255, 255, 255, 0.025);
     border: 1px solid rgba(255, 255, 255, 0.07);
-    transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
+    transition:
+      transform 0.22s ease,
+      border-color 0.22s ease,
+      box-shadow 0.22s ease;
     animation: nw-fade-up 0.5s cubic-bezier(0.22, 1, 0.36, 1) calc(var(--i, 0) * 50ms + 80ms) both;
   }
   .nw-card:hover {
@@ -166,10 +198,16 @@ const subtopics = networkingEntries
     color: #0ea5e9;
     transition: gap 0.18s ease;
   }
-  .nw-card:hover .nw-card-cta { gap: 0.5rem; }
+  .nw-card:hover .nw-card-cta {
+    gap: 0.5rem;
+  }
 
   @media (max-width: 600px) {
-    .nw-header { padding: 3.5rem 1.25rem 2rem; }
-    .nw-cards  { padding: 2rem 1.25rem 5rem; }
+    .nw-header {
+      padding: 3.5rem 1.25rem 2rem;
+    }
+    .nw-cards {
+      padding: 2rem 1.25rem 5rem;
+    }
   }
 </style>
