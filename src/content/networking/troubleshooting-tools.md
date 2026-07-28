@@ -1,7 +1,7 @@
 ---
 title: "Troubleshooting Tools"
 description: "Essential network debugging commands — ping, traceroute, dig, curl, ss, tcpdump, iptables, and more."
-order: 11
+order: 9
 topic: "networking"
 ---
 

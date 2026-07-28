@@ -1,7 +1,7 @@
 ---
 title: "Network Models"
 description: "The OSI 7-layer model and the TCP/IP 4-layer model — how data flows through the network stack."
-order: 6
+order: 4
 topic: "networking"
 ---
 

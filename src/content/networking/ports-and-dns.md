@@ -1,7 +1,7 @@
 ---
 title: "Ports & DNS"
 description: "How port numbers route traffic to the right application, and how DNS translates domain names to IPs."
-order: 4
+order: 3
 topic: "networking"
 ---
 
