@@ -6,7 +6,7 @@ import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
-  site: 'https://hi-devops.dev',
+  site: 'https://devops.hi-shanto.me',
   integrations: [react(), mdx(), sitemap()],
   vite: {
     plugins: [tailwindcss()],

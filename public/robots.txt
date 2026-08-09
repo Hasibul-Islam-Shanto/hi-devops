@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://hi-devops.dev/sitemap-index.xml
+Sitemap: https://devops.hi-shanto.me/sitemap-index.xml
