@@ -1,7 +1,7 @@
 ---
 title: "Load Balancing & Reverse Proxy"
 description: "How load balancers distribute traffic across servers, and how reverse proxies handle SSL, caching, and routing."
-order: 8
+order: 7
 topic: "networking"
 ---
 
