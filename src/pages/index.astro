@@ -22,8 +22,8 @@ const topics = [
     icon: 'package',
     title: 'Docker',
     description: 'Containerise applications and manage images and volumes.',
-    href: '#',
-    available: false,
+    href: '/topics/docker',
+    available: true,
     color: '#06b6d4',
   },
   {
@@ -537,9 +537,10 @@ const topics = [
     width: 42px;
     height: 42px;
     border-radius: 11px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    background: rgba(255, 255, 255, 0.035);
+    border: 1px solid var(--color-panel-border);
+    background: var(--color-panel-bg);
     color: var(--color-text-secondary);
+    box-shadow: var(--card-shadow);
     transition:
       transform 0.2s ease,
       border-color 0.2s ease,
@@ -554,8 +555,8 @@ const topics = [
   }
 
   :global(html.light) .social {
-    border-color: rgba(0, 0, 0, 0.1);
-    background: rgba(0, 0, 0, 0.03);
+    border-color: var(--color-panel-border);
+    background: var(--color-panel-bg);
   }
 
   .term-wrap {
@@ -721,8 +722,9 @@ const topics = [
     text-decoration: none;
     padding: 1.375rem;
     border-radius: 14px;
-    background: rgba(255, 255, 255, 0.025);
-    border: 1px solid rgba(255, 255, 255, 0.07);
+    background: var(--color-panel-bg);
+    border: 1px solid var(--color-panel-border);
+    box-shadow: var(--card-shadow);
     transition:
       transform 0.22s ease,
       border-color 0.22s ease,

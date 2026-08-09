@@ -21,6 +21,16 @@ const networking = defineCollection({
   }),
 });
 
+const docker = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/docker' }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    order: z.number(),
+    topic: z.string().default('docker'),
+  }),
+});
+
 const blog = defineCollection({
   loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/blog' }),
   schema: z.object({
@@ -33,4 +43,4 @@ const blog = defineCollection({
   }),
 });
 
-export const collections = { linux, networking, blog };
+export const collections = { linux, networking, docker, blog };

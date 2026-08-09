@@ -4,6 +4,7 @@ import type { APIRoute } from 'astro';
 export const GET: APIRoute = async () => {
   const linuxEntries = await getCollection('linux');
   const networkingEntries = await getCollection('networking');
+  const dockerEntries = await getCollection('docker');
 
   const linuxIndex = await Promise.all(
     linuxEntries.map(async (entry) => {
@@ -45,7 +46,27 @@ export const GET: APIRoute = async () => {
     }),
   );
 
-  const index = [...linuxIndex, ...networkingIndex];
+  const dockerIndex = await Promise.all(
+    dockerEntries.map(async (entry) => {
+      const { headings } = await render(entry);
+      return {
+        title: entry.data.title,
+        description: entry.data.description,
+        slug: entry.id,
+        topic: 'Docker',
+        topicColor: '#06b6d4',
+        href: `/topics/docker/${entry.id}`,
+        order: entry.data.order,
+        headings: headings.map((h) => ({
+          id: h.slug,
+          text: h.text,
+          depth: h.depth,
+        })),
+      };
+    }),
+  );
+
+  const index = [...linuxIndex, ...networkingIndex, ...dockerIndex];
 
   const sorted = index.sort((a, b) => {
     if (a.topic !== b.topic) return a.topic.localeCompare(b.topic);

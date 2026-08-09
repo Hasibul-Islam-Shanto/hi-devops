@@ -2,8 +2,8 @@
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
 
-const linuxEntries = await getCollection('linux');
-const subtopics = linuxEntries
+const dockerEntries = await getCollection('docker');
+const subtopics = dockerEntries
   .map((e) => ({
     slug: e.id,
     title: e.data.title,
@@ -14,46 +14,51 @@ const subtopics = linuxEntries
 ---
 
 <BaseLayout
-  title="Linux"
-  description="Learn Linux from the ground up — commands, permissions, bash scripting, and real-world scenarios."
-  ogImage="/images/linux-site.webp"
+  title="Docker"
+  description="Containerise applications — images, Dockerfiles, networking, volumes, and Compose."
+  ogImage="/images/docker-site.webp"
 >
-  <section class="lx-header">
-    <div class="lx-title-row">
-      <div class="lx-icon" aria-hidden="true">
+  <section class="dk-header">
+    <div class="dk-title-row">
+      <div class="dk-icon" aria-hidden="true">
         <svg
           width="28"
           height="28"
           viewBox="0 0 24 24"
           fill="none"
-          stroke="#10b981"
+          stroke="#06b6d4"
           stroke-width="2"
           stroke-linecap="round"
           stroke-linejoin="round"
         >
-          <polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line>
+          <line x1="16.5" y1="9.4" x2="7.5" y2="4.21"></line>
+          <path
+            d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"
+          ></path>
+          <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+          <line x1="12" y1="22.08" x2="12" y2="12"></line>
         </svg>
       </div>
-      <h1 class="lx-title">Linux</h1>
+      <h1 class="dk-title">Docker</h1>
     </div>
 
-    <p class="lx-desc">
-      The foundation of DevOps. Master the command line, file system, permissions, process
-      management, and Bash scripting.
+    <p class="dk-desc">
+      Package apps into portable containers. Learn the fundamentals, write Dockerfiles, manage
+      images, and orchestrate multi-service setups with Compose.
     </p>
   </section>
 
-  <section class="lx-cards">
-    <div class="lx-grid">
+  <section class="dk-cards">
+    <div class="dk-grid">
       {
         subtopics.map((sub, i) => (
-          <a href={`/topics/linux/${sub.slug}`} class="lx-card" style={`--i:${i}`}>
-            <div class="lx-card-top">
-              <span class="lx-order">{String(sub.order).padStart(2, '0')}</span>
+          <a href={`/topics/docker/${sub.slug}`} class="dk-card" style={`--i:${i}`}>
+            <div class="dk-card-top">
+              <span class="dk-order">{String(sub.order).padStart(2, '0')}</span>
             </div>
-            <h2 class="lx-card-title">{sub.title}</h2>
-            <p class="lx-card-desc">{sub.description}</p>
-            <span class="lx-card-cta">
+            <h2 class="dk-card-title">{sub.title}</h2>
+            <p class="dk-card-desc">{sub.description}</p>
+            <span class="dk-card-cta">
               Read notes
               <svg
                 width="12"
@@ -76,7 +81,7 @@ const subtopics = linuxEntries
 </BaseLayout>
 
 <style>
-  @keyframes lx-fade-up {
+  @keyframes dk-fade-up {
     from {
       opacity: 0;
       transform: translateY(16px);
@@ -87,14 +92,14 @@ const subtopics = linuxEntries
     }
   }
 
-  .lx-header {
+  .dk-header {
     max-width: 1000px;
     margin: 0 auto;
     text-align: center;
-    animation: lx-fade-up 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation: dk-fade-up 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
   }
 
-  .lx-title-row {
+  .dk-title-row {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -102,19 +107,19 @@ const subtopics = linuxEntries
     margin-bottom: 0.875rem;
   }
 
-  .lx-icon {
+  .dk-icon {
     width: 52px;
     height: 52px;
     border-radius: 14px;
-    background: rgba(16, 185, 129, 0.1);
-    border: 1px solid rgba(16, 185, 129, 0.22);
+    background: rgba(6, 182, 212, 0.1);
+    border: 1px solid rgba(6, 182, 212, 0.22);
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
   }
 
-  .lx-title {
+  .dk-title {
     font-size: clamp(2rem, 5vw, 3rem);
     font-weight: 900;
     color: var(--color-text-primary);
@@ -122,7 +127,7 @@ const subtopics = linuxEntries
     margin: 0;
   }
 
-  .lx-desc {
+  .dk-desc {
     font-size: 1rem;
     color: var(--color-text-secondary);
     max-width: 500px;
@@ -130,19 +135,19 @@ const subtopics = linuxEntries
     line-height: 1.75;
   }
 
-  .lx-cards {
+  .dk-cards {
     max-width: 1000px;
     margin: 0 auto;
     padding: 2.5rem 2rem 6rem;
   }
 
-  .lx-grid {
+  .dk-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 1.125rem;
   }
 
-  .lx-card {
+  .dk-card {
     display: block;
     text-decoration: none;
     padding: 1.375rem;
@@ -154,27 +159,27 @@ const subtopics = linuxEntries
       transform 0.22s ease,
       border-color 0.22s ease,
       box-shadow 0.22s ease;
-    animation: lx-fade-up 0.5s cubic-bezier(0.22, 1, 0.36, 1) calc(var(--i, 0) * 50ms + 80ms) both;
+    animation: dk-fade-up 0.5s cubic-bezier(0.22, 1, 0.36, 1) calc(var(--i, 0) * 50ms + 80ms) both;
   }
-  .lx-card:hover {
+  .dk-card:hover {
     transform: translateY(-4px);
-    border-color: rgba(16, 185, 129, 0.28);
+    border-color: rgba(6, 182, 212, 0.28);
     box-shadow: 0 12px 32px rgba(0, 0, 0, 0.28);
   }
 
-  .lx-card-top {
+  .dk-card-top {
     margin-bottom: 0.875rem;
   }
 
-  .lx-order {
+  .dk-order {
     font-size: 0.7rem;
     font-weight: 700;
     letter-spacing: 0.12em;
-    color: var(--color-aurora-1);
+    color: #06b6d4;
     font-family: 'JetBrains Mono', 'Fira Code', monospace;
   }
 
-  .lx-card-title {
+  .dk-card-title {
     font-size: 1.025rem;
     font-weight: 700;
     color: var(--color-text-primary);
@@ -182,31 +187,31 @@ const subtopics = linuxEntries
     letter-spacing: -0.01em;
   }
 
-  .lx-card-desc {
+  .dk-card-desc {
     font-size: 0.855rem;
     color: var(--color-text-secondary);
     line-height: 1.55;
     margin-bottom: 1.25rem;
   }
 
-  .lx-card-cta {
+  .dk-card-cta {
     display: inline-flex;
     align-items: center;
     gap: 0.3rem;
     font-size: 0.8rem;
     font-weight: 600;
-    color: #10b981;
+    color: #06b6d4;
     transition: gap 0.18s ease;
   }
-  .lx-card:hover .lx-card-cta {
+  .dk-card:hover .dk-card-cta {
     gap: 0.5rem;
   }
 
   @media (max-width: 600px) {
-    .lx-header {
+    .dk-header {
       padding: 3.5rem 1.25rem 2rem;
     }
-    .lx-cards {
+    .dk-cards {
       padding: 2rem 1.25rem 5rem;
     }
   }

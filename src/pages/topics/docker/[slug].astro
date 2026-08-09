@@ -3,7 +3,7 @@ import { getCollection, render } from 'astro:content';
 import TopicLayout from '../../../layouts/TopicLayout.astro';
 
 export async function getStaticPaths() {
-  const entries = await getCollection('linux');
+  const entries = await getCollection('docker');
   return entries.map((entry) => ({
     params: { slug: entry.id },
     props: { entry },
@@ -14,7 +14,7 @@ const { entry } = Astro.props;
 const { Content, headings: rawHeadings } = await render(entry);
 const headings = rawHeadings.map((h) => ({ id: h.slug, text: h.text, depth: h.depth }));
 
-const allEntries = await getCollection('linux');
+const allEntries = await getCollection('docker');
 const subtopics = allEntries.map((e) => ({
   slug: e.id,
   title: e.data.title,
@@ -26,10 +26,10 @@ const subtopics = allEntries.map((e) => ({
   title={entry.data.title}
   description={entry.data.description}
   headings={headings}
-  topic="Linux"
+  topic="Docker"
   subtopics={subtopics}
   currentSlug={entry.id}
-  ogImage="/images/linux-site.webp"
+  ogImage="/images/docker-site.webp"
 >
   <Content />
 </TopicLayout>

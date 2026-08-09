@@ -12,11 +12,9 @@ A personal DevOps learning site built with [Astro](https://astro.build). Practic
 │   └── hi_devops_logo.webp
 ├── src/
 │   ├── components/
-│   │   ├── CodeBlock.tsx       # Syntax-highlighted code block (React)
-│   │   ├── Navbar.astro        # Site navigation with theme toggle
+│   │   ├── Navbar.astro        # Site navigation and search trigger
 │   │   ├── Search.tsx          # Client-side content search (React)
 │   │   ├── TableOfContents.tsx # Auto-generated TOC for topic pages (React)
-│   │   ├── ThemeToggle.tsx     # Dark / light mode toggle (React)
 │   │   └── TopicSidebar.astro  # Sidebar listing topic articles
 │   ├── content/
 │   │   └── linux/              # Markdown articles for the Linux topic

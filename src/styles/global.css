@@ -28,14 +28,20 @@
   --glass-blur: blur(20px);
   --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
 
-  --card-bg: rgba(255, 255, 255, 0.03);
-  --card-border: rgba(255, 255, 255, 0.08);
+  --card-bg: #0f1629;
+  --card-border: #1e293b;
   --card-hover-border: rgba(99, 102, 241, 0.4);
   --card-hover-glow: 0 0 30px rgba(99, 102, 241, 0.15);
+  --card-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
 
   --code-bg: #0d1117;
   --code-border: rgba(255, 255, 255, 0.08);
   --code-text: #e2e8f0;
+
+  --color-panel-bg: #0f1629;
+  --color-panel-border: #1e293b;
+  --color-table-header: #141d35;
+  --color-table-stripe: #111827;
 
   --scrollbar-thumb: rgba(99, 102, 241, 0.4);
   --scrollbar-track: rgba(255, 255, 255, 0.03);
@@ -44,7 +50,7 @@
   --transition-base: 250ms ease;
   --transition-slow: 400ms ease;
 
-  --sidebar-width: 230px;
+  --sidebar-width: 260px;
   --toc-width: 200px;
 }
 
@@ -61,10 +67,11 @@
   --glass-border: rgba(0, 0, 0, 0.08);
   --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 
-  --card-bg: rgba(255, 255, 255, 0.8);
-  --card-border: rgba(0, 0, 0, 0.08);
+  --card-bg: #ffffff;
+  --card-border: #e2e8f0;
   --card-hover-border: rgba(99, 102, 241, 0.5);
   --card-hover-glow: 0 0 30px rgba(99, 102, 241, 0.12);
+  --card-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
 
   --color-text-primary: #0f172a;
   --color-text-secondary: #475569;
@@ -72,6 +79,10 @@
   --color-text-accent: #6366f1;
 
   --code-bg: #1e2030;
+  --color-panel-bg: #ffffff;
+  --color-panel-border: #e2e8f0;
+  --color-table-header: #f1f5f9;
+  --color-table-stripe: #f8fafc;
   --scrollbar-thumb: rgba(99, 102, 241, 0.5);
   --scrollbar-track: rgba(0, 0, 0, 0.05);
 }
@@ -131,8 +142,8 @@ body::after {
   position: fixed;
   inset: 0;
   background-image:
-    linear-gradient(rgba(0, 217, 255, 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 217, 255, 0.05) 1px, transparent 1px);
+    linear-gradient(rgba(0, 217, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 217, 255, 0.025) 1px, transparent 1px);
   background-size: 50px 50px;
   pointer-events: none;
   z-index: 0;
@@ -140,8 +151,8 @@ body::after {
 
 .light body::after {
   background-image:
-    linear-gradient(rgba(0, 217, 255, 0.025) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 217, 255, 0.025) 1px, transparent 1px);
+    linear-gradient(rgba(0, 217, 255, 0.015) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 217, 255, 0.015) 1px, transparent 1px);
 }
 
 body > * {
@@ -173,6 +184,7 @@ body > * {
   background: var(--card-bg);
   border: 1px solid var(--card-border);
   border-radius: 12px;
+  box-shadow: var(--card-shadow);
   transition:
     border-color var(--transition-base),
     box-shadow var(--transition-base),
@@ -182,6 +194,26 @@ body > * {
   border-color: var(--card-hover-border);
   box-shadow: var(--card-hover-glow);
   transform: translateY(-2px);
+}
+
+.content-panel {
+  background: var(--color-panel-bg);
+  border: 1px solid var(--color-panel-border);
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: var(--card-shadow);
+}
+
+.surface-card {
+  background: var(--color-panel-bg);
+  border: 1px solid var(--color-panel-border);
+  border-radius: 14px;
+  box-shadow: var(--card-shadow);
+}
+
+.light .content-panel,
+.light .surface-card {
+  box-shadow: var(--card-shadow);
 }
 
 .text-aurora {
@@ -275,10 +307,12 @@ body > * {
 }
 .prose blockquote {
   border-left: 3px solid var(--color-aurora-1);
-  padding-left: 1rem;
+  padding: 0.75rem 1rem;
   margin: 1.5rem 0;
   color: var(--color-text-secondary);
   font-style: italic;
+  background: var(--color-table-stripe);
+  border-radius: 0 8px 8px 0;
 }
 .prose table {
   width: 100%;
@@ -293,7 +327,7 @@ body > * {
   text-align: left;
 }
 .prose th {
-  background: var(--color-surface);
+  background: var(--color-table-header);
   font-weight: 600;
   color: var(--color-text-primary);
 }
@@ -301,7 +335,7 @@ body > * {
   color: var(--color-text-secondary);
 }
 .prose tr:nth-child(even) td {
-  background: rgba(255, 255, 255, 0.02);
+  background: var(--color-table-stripe);
 }
 .prose hr {
   border: none;
@@ -317,6 +351,7 @@ body > * {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  width: 100%;
   padding: 0.5rem 0.75rem;
   border-radius: 8px;
   font-size: 0.875rem;
@@ -336,6 +371,17 @@ body > * {
   color: var(--color-aurora-1);
   font-weight: 600;
   border-left-color: var(--color-aurora-1);
+}
+
+.topic-sidebar {
+  width: 100%;
+}
+
+.topic-sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+  width: 100%;
 }
 
 .toc-link {

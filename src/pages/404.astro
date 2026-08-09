@@ -64,8 +64,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     text-decoration: none;
     padding: 0.6rem 1.1rem;
     border-radius: 8px;
-    border: 1px solid var(--color-border);
-    background: var(--color-surface);
+    border: 1px solid var(--color-panel-border);
+    background: var(--color-panel-bg);
+    box-shadow: var(--card-shadow);
     transition:
       border-color var(--transition-fast, 180ms ease),
       background var(--transition-fast, 180ms ease);
@@ -73,6 +74,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
   .not-found-link:hover {
     border-color: var(--color-border-hover);
-    background: var(--color-surface-hover);
+    background: var(--color-table-header);
   }
 </style>

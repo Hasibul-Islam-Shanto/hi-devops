@@ -1,13 +1,7 @@
 ---
-const currentPath = Astro.url.pathname;
-
-function isActive(href: string) {
-  if (href === '/') return currentPath === '/';
-  return currentPath.startsWith(href);
-}
 ---
 
-<header class="sticky top-0 z-100 py-2.5 px-6">
+<header class="py-2.5 px-6">
   <div class="max-w-[1000px] mx-auto pr-3 pl-3.5 h-[52px] flex items-center justify-between gap-6">
     <a href="/" class="flex items-center gap-1 no-underline shrink-0" aria-label="hi-devOps home">
       <svg
@@ -53,7 +47,7 @@ function isActive(href: string) {
     <button
       id="search-trigger"
       aria-label="Search (Ctrl+K)"
-      class="flex items-center gap-[0.4rem] py-[0.35rem] px-3 rounded-lg border border-[rgba(255,255,255,0.09)] bg-[rgba(255,255,255,0.03)] text-(--color-text-muted) text-[0.8rem] font-[inherit] cursor-pointer whitespace-nowrap transition-all duration-[180ms] ease-[ease] hover:border-[rgba(255,255,255,0.16)] hover:bg-[rgba(255,255,255,0.06)] hover:text-[var(--color-text-secondary)]"
+      class="flex items-center gap-[0.4rem] py-[0.35rem] px-3 rounded-lg border border-(--color-panel-border) bg-(--color-panel-bg) text-(--color-text-muted) text-[0.8rem] font-[inherit] cursor-pointer whitespace-nowrap shadow-(--card-shadow) transition-all duration-[180ms] ease-[ease] hover:border-(--color-border-hover) hover:bg-(--color-table-header) hover:text-[var(--color-text-secondary)]"
     >
       <svg
         width="14"
@@ -69,62 +63,15 @@ function isActive(href: string) {
       </svg>
       <span class="max-[600px]:hidden">Search</span>
       <kbd
-        class="py-[0.1em] px-[0.4em] rounded border border-[rgba(255,255,255,0.09)] bg-[rgba(255,255,255,0.04)] text-[0.68rem] font-[inherit] text-(--color-text-muted) max-[600px]:hidden"
+        class="py-[0.1em] px-[0.4em] rounded border border-(--color-panel-border) bg-(--color-table-header) text-[0.68rem] font-[inherit] text-(--color-text-muted) max-[600px]:hidden"
         >⌘K</kbd
       >
-    </button>
-
-    <button
-      id="hamburger"
-      aria-label="Toggle menu"
-      aria-expanded="false"
-      class="hamburger hidden max-[600px]:flex flex-col justify-center items-center gap-[4px] w-9 h-9 p-0 bg-transparent border border-[rgba(255,255,255,0.09)] rounded-lg cursor-pointer transition-all duration-[180ms] ease-[ease] hover:border-[rgba(255,255,255,0.16)] hover:bg-[rgba(255,255,255,0.04)]"
-    >
-      <span
-        class="ham-line block w-4 h-[1.5px] rounded-sm bg-(--color-text-secondary) transition-all duration-[220ms] ease-[ease]"
-      ></span>
-      <span
-        class="ham-line block w-4 h-[1.5px] rounded-sm bg-(--color-text-secondary) transition-all duration-[220ms] ease-[ease]"
-      ></span>
-      <span
-        class="ham-line block w-4 h-[1.5px] rounded-sm bg-(--color-text-secondary) transition-all duration-[220ms] ease-[ease]"
-      ></span>
     </button>
   </div>
 </header>
 
-<style>
-  .hamburger[aria-expanded='true'] .ham-line:nth-child(1) {
-    transform: translateY(5.5px) rotate(45deg);
-  }
-  .hamburger[aria-expanded='true'] .ham-line:nth-child(2) {
-    opacity: 0;
-  }
-  .hamburger[aria-expanded='true'] .ham-line:nth-child(3) {
-    transform: translateY(-5.5px) rotate(-45deg);
-  }
-</style>
-
 <script>
   document.getElementById('search-trigger')?.addEventListener('click', () => {
     window.dispatchEvent(new Event('open-search'));
-  });
-
-  const btn = document.getElementById('hamburger') as HTMLButtonElement;
-  const menu = document.getElementById('mobile-menu') as HTMLElement;
-
-  btn?.addEventListener('click', () => {
-    const open = menu.classList.contains('is-open');
-    menu.classList.toggle('is-open', !open);
-    btn.setAttribute('aria-expanded', String(!open));
-    menu.setAttribute('aria-hidden', String(open));
-  });
-
-  document.addEventListener('click', (e) => {
-    if (!btn?.contains(e.target as Node) && !menu?.contains(e.target as Node)) {
-      menu?.classList.remove('is-open');
-      btn?.setAttribute('aria-expanded', 'false');
-      menu?.setAttribute('aria-hidden', 'true');
-    }
   });
 </script>

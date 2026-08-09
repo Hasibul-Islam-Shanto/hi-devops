@@ -9,17 +9,7 @@ const { topic, subtopics, currentSlug } = Astro.props;
 const sorted = [...subtopics].sort((a, b) => a.order - b.order);
 ---
 
-<aside
-  aria-label="Topic navigation"
-  style="
-  position: sticky;
-  top: 80px;
-  height: fit-content;
-  max-height: calc(100vh - 100px);
-  overflow-y: auto;
-  padding-right: 0.5rem;
-"
->
+<aside aria-label="Topic navigation" class="topic-sidebar">
   <div
     style="margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--color-border);"
   >
@@ -35,7 +25,7 @@ const sorted = [...subtopics].sort((a, b) => a.order - b.order);
     </h2>
   </div>
 
-  <nav style="display: flex; flex-direction: column; gap: 0.125rem;">
+  <nav class="topic-sidebar-nav">
     {
       sorted.map((item) => (
         <a

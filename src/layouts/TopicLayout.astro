@@ -20,6 +20,7 @@ interface Props {
   ogType?: 'website' | 'article';
   pubDate?: Date;
   tags?: string[];
+  ogImage?: string;
 }
 
 const {
@@ -33,6 +34,7 @@ const {
   ogType,
   pubDate,
   tags,
+  ogImage,
 } = Astro.props;
 const tocHeadings = headings.filter((h) => h.depth === 2 || h.depth === 3);
 
@@ -45,7 +47,7 @@ const nextItem =
     : null;
 ---
 
-<BaseLayout title={title} description={description} ogType={ogType} pubDate={pubDate} tags={tags}>
+<BaseLayout title={title} description={description} ogType={ogType} pubDate={pubDate} tags={tags} ogImage={ogImage}>
   <div
     style="
     display: grid;
@@ -58,11 +60,11 @@ const nextItem =
   "
     class="topic-layout"
   >
-    <div class="sidebar-panel">
+    <div class="sidebar-panel content-panel">
       <TopicSidebar topic={topic} subtopics={subtopics} currentSlug={currentSlug} />
     </div>
 
-    <article class="prose" style="min-width: 0; justify-self: center; padding: 0 1rem;">
+    <article class="prose content-panel topic-article">
       <h1 style="margin-top: 0;">{title}</h1>
       <slot />
 
@@ -118,7 +120,7 @@ const nextItem =
       }
     </article>
 
-    <div class="toc-panel" style="position: sticky; top: 80px;">
+    <div class="toc-panel content-panel">
       <TableOfContents headings={tocHeadings} client:idle />
     </div>
   </div>
@@ -200,6 +202,19 @@ const nextItem =
   </button>
 
   <style>
+    .sidebar-panel.content-panel,
+    .toc-panel.content-panel {
+      position: sticky;
+      top: 80px;
+      height: fit-content;
+    }
+
+    .topic-article {
+      min-width: 0;
+      width: 100%;
+      max-width: none;
+    }
+
     .topic-pagination {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -225,7 +240,7 @@ const nextItem =
 
     .pagination-link:hover {
       border-color: var(--color-border-hover);
-      background: var(--color-surface);
+      background: var(--color-table-header);
     }
 
     .pagination-next {

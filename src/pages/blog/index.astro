@@ -110,14 +110,17 @@ function formatDate(date: Date) {
     text-align: center;
     padding: 3rem 2rem;
     border-radius: 16px;
-    border: 1px dashed var(--color-border);
+    background: var(--color-panel-bg);
+    border: 1px solid var(--color-panel-border);
+    box-shadow: var(--card-shadow);
   }
 
   .empty-icon {
     width: 64px;
     height: 64px;
     border-radius: 16px;
-    background: var(--color-surface);
+    background: var(--color-table-header);
+    border: 1px solid var(--color-panel-border);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -165,8 +168,8 @@ function formatDate(date: Date) {
     color: var(--color-text-muted);
     padding: 0.15rem 0.5rem;
     border-radius: 4px;
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
+    background: var(--color-table-header);
+    border: 1px solid var(--color-panel-border);
   }
 
   .post-title {
