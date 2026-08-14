@@ -1,5 +1,11 @@
-<header class="py-2.5 px-6">
-  <div class="max-w-[1000px] mx-auto pr-3 pl-3.5 h-[52px] flex items-center justify-between gap-6">
+---
+import { socialLinks } from '../data/socialLinks';
+---
+
+<header class="py-2.5 px-4 sm:px-6">
+  <div
+    class="max-w-[1000px] mx-auto pr-1 pl-1 sm:pr-3 sm:pl-3.5 min-h-[52px] flex flex-wrap items-center justify-between gap-3 sm:gap-6"
+  >
     <a href="/" class="flex items-center gap-1 no-underline shrink-0" aria-label="hi-devOps home">
       <svg
         class="w-8 h-8 shrink-0"
@@ -41,29 +47,66 @@
       </span>
     </a>
 
-    <button
-      id="search-trigger"
-      aria-label="Search (Ctrl+K)"
-      class="flex items-center gap-[0.4rem] py-[0.35rem] px-3 rounded-lg border border-(--color-panel-border) bg-(--color-panel-bg) text-(--color-text-muted) text-[0.8rem] font-[inherit] cursor-pointer whitespace-nowrap shadow-(--card-shadow) transition-all duration-[180ms] ease-[ease] hover:border-(--color-border-hover) hover:bg-(--color-table-header) hover:text-[var(--color-text-secondary)]"
-    >
-      <svg
-        width="14"
-        height="14"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+    <div class="flex items-center gap-1.5 sm:gap-2.5">
+      <nav class="flex items-center gap-1" aria-label="Main navigation">
+        <a
+          href="/"
+          class="px-2 py-1.5 sm:px-2.5 rounded-md text-sm font-semibold text-(--color-text-secondary) no-underline transition-colors duration-150 hover:bg-(--color-surface-hover) hover:text-(--color-text-primary)"
+        >
+          Home
+        </a>
+        <a
+          href="/blog"
+          class="px-2 py-1.5 sm:px-2.5 rounded-md text-sm font-semibold text-(--color-text-secondary) no-underline transition-colors duration-150 hover:bg-(--color-surface-hover) hover:text-(--color-text-primary)"
+        >
+          Blogs
+        </a>
+      </nav>
+
+      <div class="flex items-center gap-1">
+        {
+          socialLinks.map((link) => (
+            <a
+              href={link.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={link.name}
+              class="flex h-8 w-8 items-center justify-center rounded-md text-(--color-text-muted) transition-colors duration-150 hover:bg-(--color-surface-hover) hover:text-(--color-aurora-1)"
+            >
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <path d={link.path} />
+              </svg>
+            </a>
+          ))
+        }
+      </div>
+
+      <button
+        id="search-trigger"
+        aria-label="Search (Ctrl+K)"
+        title="Search (Ctrl+K)"
+        class="flex h-8 w-8 items-center justify-center rounded-md border border-(--color-panel-border) bg-(--color-panel-bg) text-(--color-text-muted) shadow-(--card-shadow) transition-all duration-[180ms] ease-[ease] hover:border-(--color-border-hover) hover:bg-(--color-table-header) hover:text-[var(--color-text-secondary)]"
       >
-        <circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35"></path>
-      </svg>
-      <span class="max-[600px]:hidden">Search</span>
-      <kbd
-        class="py-[0.1em] px-[0.4em] rounded border border-(--color-panel-border) bg-(--color-table-header) text-[0.68rem] font-[inherit] text-(--color-text-muted) max-[600px]:hidden"
-        >⌘K</kbd
-      >
-    </button>
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35"></path>
+        </svg>
+      </button>
+    </div>
   </div>
 </header>
 
